@@ -2,6 +2,7 @@
 session_start();
 include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';
+
 if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     header("Location: ../index/index.php");
     exit;
@@ -20,6 +21,7 @@ if (!$compraId) {
     exit;
 }
 
+// Atualizar estado da compra
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compra_id'], $_POST['novo_estado'])) {
     $novoEstado   = $_POST['novo_estado'];
     $estadosValid = ['Pendente', 'A caminho', 'Entregue'];
@@ -30,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compra_id'], $_POST['
         $stmtUpd->execute();
         $stmtUpd->close();
 
+        // Buscar dados do usuário
         $stmtUser = $conn->prepare("SELECT u.nome, u.email, fc.data_compra 
                                     FROM fim_compra fc 
                                     JOIN utilizadores u ON fc.utilizador_id = u.id 
@@ -46,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compra_id'], $_POST['
         }
         $stmtUser->close();
 
+        // Buscar itens da compra
         $stmtItens = $conn->prepare("SELECT nome_produto, quantidade, preco FROM fim_compra_itens WHERE compra_id = ?");
         $stmtItens->bind_param("i", $compraId);
         $stmtItens->execute();
@@ -59,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compra_id'], $_POST['
         }
         $stmtItens->close();
 
+        // Enviar email
         $mail = new PHPMailer(true);
         try {
             $mail->CharSet = 'UTF-8';
@@ -80,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compra_id'], $_POST['
 
             $mail->Body = "
                 <p>Olá <strong>{$userNome}</strong>,</p>
-                <p>O estado da sua encomenda foi atualizado.
+                <p>O estado da sua encomenda foi atualizado.</p>
                 <p><strong>Produto(s):</strong> {$produtosStr}</p>
                 <p><strong>Total:</strong> {$totalFormatado} €</p> 
                 <p><strong>Estado: </strong>{$novoEstado}.</p>
@@ -103,6 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compra_id'], $_POST['
     exit;
 }
 
+// Buscar detalhes da compra
 $stmtCompra = $conn->prepare("SELECT fc.*, u.nome AS user_nome, u.email AS user_email
                               FROM fim_compra fc
                               JOIN utilizadores u ON u.id = fc.utilizador_id
@@ -118,6 +124,7 @@ if ($resultCompra->num_rows === 0) {
 $compra = $resultCompra->fetch_assoc();
 $stmtCompra->close();
 
+// Buscar itens
 $stmtItens = $conn->prepare("SELECT nome_produto, tipo_produto, quantidade, preco
                              FROM fim_compra_itens
                              WHERE compra_id = ?");
@@ -134,6 +141,7 @@ while ($row = $resultItens->fetch_assoc()) {
 }
 $stmtItens->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -141,85 +149,104 @@ $stmtItens->close();
     <title>Detalhes da Compra #<?php echo $compraId; ?></title>
     <link rel="stylesheet" href="../css/admin_produto.css">
     <link rel="icon" type="image/png" href="../imagens/icon.png">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
+            <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
     <div class="overlay"></div>
-        <br><br><br>
+    <br><br><br>
     <div class="content" style="max-width:900px;">
-        <table class="admin-table">
-            <thead>
-                <tr><th colspan="4"><h2>Detalhes da Compra #<?php echo $compraId; ?></h2></th></tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>Utilizador</th>
-                    <td><?php echo htmlspecialchars($compra['user_nome']); ?></td>
-                    <th>Email</th>
-                    <td><?php echo htmlspecialchars($compra['user_email']); ?></td>
-                </tr>
-                <tr>
-                    <th>Data</th>
-                    <td><?php echo date('d/m/Y H:i', strtotime($compra['data_compra'])); ?></td>
-                    <th>Estado</th>
-                    <td>
-                        <form method="POST" class="estado-form" style="display:inline;">
-                            <input type="hidden" name="compra_id" value="<?php echo $compraId; ?>">
-                            <select name="novo_estado" onchange="this.form.submit()">
-                                <?php
-                                foreach (['Pendente', 'A caminho', 'Entregue'] as $opt) {
-                                    $sel = ($compra['estado'] === $opt) ? 'selected' : '';
-                                    echo '<option value="' . $opt . '" ' . $sel . '>' . $opt . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </form>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Endereço</th>
-                    <td colspan="3">
-                        <?php echo htmlspecialchars($compra['rua'] . ', ' . $compra['distrito'] . ' (' . $compra['codigo_postal'] . ')'); ?>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
 
-        <br>
+        <!-- Título -->
+        <h1>Detalhes da Compra #<?php echo $compraId; ?></h1>
 
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>Produto</th>
-                    <th>Tipo</th>
-                    <th>Quantidade</th>
-                    <th>Preço (€)</th>
-                    <th>Subtotal (€)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if ($itens) {
-                    foreach ($itens as $item) {
-                        echo '<tr>';
-                        echo '<td>' . htmlspecialchars($item['nome_produto']) . '</td>';
-                        echo '<td>' . htmlspecialchars(ucfirst($item['tipo_produto'])) . '</td>';
-                        echo '<td>' . $item['quantidade'] . '</td>';
-                        echo '<td>' . number_format($item['preco'], 2, ',', '.') . '</td>';
-                        echo '<td>' . number_format($item['subtotal'], 2, ',', '.') . '</td>';
-                        echo '</tr>';
+        <!-- Tabela de informações da compra -->
+        <div class="table-container">
+<table id="tabela_compra" class="admin-table">
+    <thead>
+        <tr align="center"><th>Definição</th><th align="center ">Dados</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>Utilizador</td><td><?php echo htmlspecialchars($compra['user_nome']); ?></td></tr>
+        <tr><td>Email</td><td><?php echo htmlspecialchars($compra['user_email']); ?></td></tr>
+        <tr><td>Data</td><td><?php echo date('d/m/Y H:i', strtotime($compra['data_compra'])); ?></td></tr>
+        <tr><td>Estado</td><td>
+            <form method="POST" class="estado-form" style="display:inline;">
+                <input type="hidden" name="compra_id" value="<?php echo $compraId; ?>">
+                <select name="novo_estado" onchange="this.form.submit()">
+                    <?php
+                    foreach (['Pendente', 'A caminho', 'Entregue'] as $opt) {
+                        $sel = ($compra['estado'] === $opt) ? 'selected' : '';
+                        echo '<option value="' . $opt . '" ' . $sel . '>' . $opt . '</option>';
                     }
-                } else {
-                    echo '<tr><td colspan="5">Nenhum item encontrado.</td></tr>';
-                } ?>
-                <tr>
-                    <th colspan="4" style="text-align:right;">Total:</th>
-                    <td><strong><?php echo number_format($total, 2, ',', '.'); ?></strong></td>
-                </tr>
-            </tbody>
-        </table>
+                    ?>
+                </select>
+            </form>
+        </td></tr>
+        <tr><td>Endereço</td><td><?php echo htmlspecialchars($compra['rua'] . ', ' . $compra['distrito'] . ' (' . $compra['codigo_postal'] . ')'); ?></td></tr>
+    </tbody>
+</table>
+        </div>
+
         <br>
-        <a href="admin_compras.php<?php echo ($userId = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_NUMBER_INT)) ? '?user_id=' . $userId : ''; ?>" class="btn voltar">Voltar</a>
+
+        <!-- Tabela de itens da compra -->
+        <div class="table-container">
+   <table id="tabela_itens" class="admin-table">
+    <thead>
+        <tr>
+            <th>Produto</th>
+            <th>Tipo</th>
+            <th>Quantidade</th>
+            <th>Preço (€)</th>
+            <th>Subtotal (€)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($itens as $item): ?>
+        <tr>
+            <td><?= htmlspecialchars($item['nome_produto']) ?></td>
+            <td><?= htmlspecialchars(ucfirst($item['tipo_produto'])) ?></td>
+            <td><?= $item['quantidade'] ?></td>
+            <td><?= number_format($item['preco'], 2, ',', '.') ?></td>
+            <td><?= number_format($item['subtotal'], 2, ',', '.') ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4" style="text-align:right;"><strong>Total:</strong></td>
+            <td><strong><?= number_format($total, 2, ',', '.') ?></strong></td>
+        </tr>
+    </tfoot>
+</table>
+</div>    
     </div>
 </div>
+
+<!-- Inicialização DataTables -->
+<script>
+$(document).ready(function(){
+    $('#tabela_compra').DataTable({
+        paging: false,
+        searching: false,
+        info: false
+    });
+
+    $('#tabela_itens').DataTable({
+        paging: true,
+        searching: true,
+        info: true,
+        order: [[0, 'asc']]
+    });
+});
+</script>
+
+<script src="scriptadmin.js"></script>
 </body>
 </html>

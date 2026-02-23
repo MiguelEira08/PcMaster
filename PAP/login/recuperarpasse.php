@@ -60,19 +60,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
+    <a href="../login/login.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
     <div class="overlay">
         <center>
         <form method="POST" action="">
-            <h2 class="amiko-semibold">Repor Palavra-Passe</h2>
+            <h1 class="amiko-semibold" style="color: black;">Repor Palavra-Passe</h1>
             <img src="../imagens/logo.png" height="200px" width="200px">
 
             <label class="amiko-semibold">Email de Recuperação</label>
-            <input type="text" name="nome" required><br>
+            <input type="text" name="nome" style="font-family: 'Poppins', sans-serif;" required><br>
 
             <button type="submit">Enviar</button>
-            <br>
-            <p class="amiko-semibold"><a href="login.php">Voltar</a></p>
+    
         </form>
     </div>
 </div>

@@ -77,7 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/conta.css">
 </head>
 <body>
-
+       <a href="../saber_mais/saber_mais.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
     <div class="overlay"></div>
     <div class="content">
@@ -106,26 +108,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <div style="text-align: center;">
-                <h2 style="color: white;">Contactar Suporte</h2>
+                <h1 style="color: white;">Contactar Suporte</h1>
+                <br>
                 <label>Nome de Utilizador:</label><br>
-                <input type="nome" name="nome" maxlength="250" required><br><br>
+                <input type="nome" name="nome" maxlength="250" required>
 
                 <label>Email:</label><br>
-                <input type="email" name="email" maxlength="250" required><br><br>
+                <input type="email" name="email" maxlength="250" required>
 
                 <label>Motivo do contacto:</label><br>
-                <input type="text" name="motivo" maxlength="250" required><br><br>
+                <input type="text" name="motivo" maxlength="250" required>
 
                 <label>Explicação:</label><br>
-                <input type="text" name="mensagem" maxlength="500" required><br><br>
-
+                <input type="text" name="mensagem" maxlength="500" required>
                 <div align="center">
                     <button type="submit" class="botao">Enviar Pedido</button>
                 </div>
                 <br>
-                <div align="center">
-                    <button type="button" class="botao2"><a href="saber_mais.php">Voltar</a></button>
-                </div>
+
             </div>
         </form>
 

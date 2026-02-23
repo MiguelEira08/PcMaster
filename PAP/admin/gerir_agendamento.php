@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $id_utilizador = $_SESSION['user_id'];
 
-// Verificar se é admin
+
 $stmt = $conn->prepare("SELECT nome, email, tipo FROM utilizadores WHERE id = ?");
 if (!$stmt) die('Erro no prepare: ' . $conn->error);
 $stmt->bind_param("i", $id_utilizador);
@@ -21,7 +21,7 @@ $stmt->close();
 
 $is_admin = isset($utilizador_atual['tipo']) && $utilizador_atual['tipo'] === 'admin';
 
-// Processar ações
+
 $msg = '';
 $msg_type = '';
 
@@ -31,13 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['id'
     $descricao = trim($_POST['descricao'] ?? '');
     $estados_validos = ['confirmado', 'cancelado', 'concluido', 'pendente'];
 
-    // Edição isolada da descrição
+  
     if ($acao === 'descricao') {
         if ($is_admin) {
             $stmt = $conn->prepare("UPDATE agendamentos SET descricao = ? WHERE id = ?");
             $stmt->bind_param("si", $descricao, $agendamento_id);
         } else {
-            // Permite ao utilizador normal editar apenas a sua própria descrição
+           
             $stmt = $conn->prepare("UPDATE agendamentos SET descricao = ? WHERE id = ? AND utilizador_id = ?");
             $stmt->bind_param("sii", $descricao, $agendamento_id, $id_utilizador);
         }
@@ -130,8 +130,9 @@ while ($row = $res_count->fetch_assoc()) $contagens[$row['estado']] = $row['tota
     <link rel="icon" type="image/png" href="../imagens/icon.png">
     <title><?= $is_admin ? 'Gestão de Agendamentos' : 'Os Meus Agendamentos' ?> — PcMaster</title>
     <link rel="stylesheet" href="../css/admin_produto.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.css" />
     <style>
-    /* modal centralizado para descrição */
     .modal-overlay {
         position: fixed;
         top: 0; left: 0;
@@ -141,59 +142,55 @@ while ($row = $res_count->fetch_assoc()) $contagens[$row['estado']] = $row['tota
         z-index: 1000;
     }
     .modal-content {
-        background: #fff;
+    background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(15px);
         padding: 20px;
-        border-radius: 8px;
+        border-radius: 10px;
         width: 90%; max-width: 400px;
         box-shadow: 0 4px 14px rgba(0,0,0,0.2);
     }
-    .modal-content h3 { margin-top:0; color: #333; }
-    .modal-content textarea { width:100%; box-sizing:border-box; resize:none; padding: 10px; font-family: inherit; }
+    .modal-content textarea { 
+        width:100%; 
+        box-sizing:border-box; 
+        resize:none; 
+        padding: 10px; 
+        font-family: inherit;    
+        background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(15px);
+    border-radius: 10px;
+}
+
     .modal-buttons { display:flex; justify-content:flex-end; gap:6px; margin-top:10px; }
     </style>
 
 </head>
 <body>
+                       <a href="../admin/admin_dashboard.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
     <div class="overlay"></div>
     <br><br><br>
     <div class="content">
-        <h2><?= $is_admin ? 'Gestão de Agendamentos' : 'Os Meus Agendamentos' ?></h2>
+        <h1><?= $is_admin ? 'Gestão de Agendamentos' : 'Os Meus Agendamentos' ?></h1>
 
         <?php if ($msg): ?>
-            <div class="msg-box <?= $msg_type === 'success' ? 'msg-success' : 'msg-error' ?>" style="background: rgba(255,255,255,0.8); padding: 10px; border-radius: 5px; color: #000; margin-bottom: 15px;">
+            <div class="msg-box <?= $msg_type === 'success' ? 'msg-success' : 'msg-error' ?>" style="background: burlywood; padding: 10px; border-radius: 5px; color: #000; margin-bottom: 15px;">
                 <span><?= $msg_type === 'success' ? '✔' : '✖' ?></span>
                 <?= htmlspecialchars($msg) ?>
             </div>
         <?php endif; ?>
 
-        <form method="GET" class="form-filtros">
-            <label>Estado:</label>
-            <select name="estado">
-                <option value="">Todos</option>
-                <option value="pendente" <?= $filtro_estado==='pendente' ? 'selected':'' ?>>Pendente</option>
-                <option value="confirmado" <?= $filtro_estado==='confirmado' ? 'selected':'' ?>>Confirmado</option>
-                <option value="concluido" <?= $filtro_estado==='concluido' ? 'selected':'' ?>>Concluído</option>
-                <option value="cancelado" <?= $filtro_estado==='cancelado' ? 'selected':'' ?>>Cancelado</option>
-            </select>
-            <label>Serviço:</label>
-            <select name="tipo">
-                <option value="">Todos</option>
-                <option value="montagem" <?= $filtro_tipo==='montagem' ? 'selected':'' ?>>Montagem</option>
-                <option value="reparação" <?= $filtro_tipo==='reparação' ? 'selected':'' ?>>Reparação</option>
-            </select>
-            <label>Data:</label>
-            <input type="date" name="data" value="<?= htmlspecialchars($filtro_data) ?>">
-            <button type="submit" class="btn voltar">Filtrar</button>
-        </form>
-
-        <table class="admin-table">
+         <div class="table-container">
+            <table id="tabela" class="datatable">
             <thead>
                 <tr>
                     <th>ID</th>
                     <?php if ($is_admin): ?>
-                        <th>Cliente</th>
-                        <th>Email</th>
+                    <th>Cliente</th>
+                    <th>Email</th>
                     <?php endif; ?>
                     <th>Data</th>
                     <th>Hora</th>
@@ -219,7 +216,7 @@ while ($row = $res_count->fetch_assoc()) $contagens[$row['estado']] = $row['tota
                             <td><?= htmlspecialchars($a['localidade']) ?></td>
                             
                             <td>
-                                <button type="button" class="btn voltar btn-ver-desc" style="padding: 4px 10px; font-size: 0.85rem;" 
+                                <button type="button" class="btn ver btn-ver-desc" style="padding: 4px 10px; font-size: 0.85rem;" 
                                         data-id="<?= $a['id'] ?>" 
                                         data-desc="<?= htmlspecialchars($a['descricao'] ?? '', ENT_QUOTES) ?>">
                                     Ver
@@ -233,19 +230,21 @@ while ($row = $res_count->fetch_assoc()) $contagens[$row['estado']] = $row['tota
                                     <input type="hidden" name="descricao" class="descricao-field" value="">
                                     <?php if ($is_admin): ?>
                                         <?php if ($a['estado'] === 'pendente'): ?>
-                                            <button type="button" value="confirmado" class="btn voltar modal-trigger" style="padding:3px 6px;font-size:0.75rem;">✔</button>
-                                            <button type="button" value="cancelado" class="btn voltar modal-trigger" style="padding:3px 6px;font-size:0.75rem;">✖</button>
+    <div class="acoes-vertical">
+        <button type="button" value="confirmado" class="btn ver modal-trigger">✔</button>
+        <button type="button" value="cancelado" class="btn ver modal-trigger">✖</button>
+    </div>
                                         <?php elseif ($a['estado'] === 'confirmado'): ?>
-                                            <button type="button" value="concluido" class="btn voltar modal-trigger" style="padding:3px 6px;font-size:0.75rem;">✔</button>
-                                            <button type="button" value="cancelado" class="btn voltar modal-trigger" style="padding:3px 6px;font-size:0.75rem;">✖</button>
+                                            <button type="button" value="concluido" class="btn ver modal-trigger">✔</button>
+                                            <button type="button" value="cancelado" class="btn ver modal-trigger">✖</button>
                                         <?php elseif ($a['estado'] === 'cancelado'): ?>
-                                            <button type="button" value="pendente" class="btn voltar modal-trigger" style="padding:3px 6px;font-size:0.75rem;">↩</button>
+                                            <button type="button" value="pendente" class="btn ver modal-trigger">↩</button>
                                         <?php else: ?>
                                             —
                                         <?php endif; ?>
                                     <?php else: ?>
                                         <?php if ($a['estado'] === 'pendente'): ?>
-                                            <button type="button" value="cancelado" class="btn voltar modal-trigger" style="padding:3px 6px;font-size:0.75rem;">✖</button>
+                                            <button type="button" value="cancelado" class="btn ver modal-trigger">✖</button>
                                         <?php elseif ($a['estado'] === 'confirmado'): ?>
                                             ✔
                                         <?php else: ?>
@@ -262,15 +261,14 @@ while ($row = $res_count->fetch_assoc()) $contagens[$row['estado']] = $row['tota
             </tbody>
         </table>
 
-        <center>
-            <a href="admin_dashboard.php" class="btn voltar">Voltar à Dashboard</a>
-        </center>
+   
+     </div>
     </div>
 </div>
 
 <div id="modal-acao" class="modal-overlay" style="display:none;">
     <div class="modal-content">
-        <center><h3>Descrição da ação</h3></center><br>
+        <center><h2>Descrição da ação</h2></center><br>
         <textarea id="modal-text" rows="4" placeholder="Escreve aqui o motivo ou detalhes da atualização..."></textarea>
         <div class="modal-buttons">
             <button id="modal-cancel" class="btn voltar">Cancelar</button>
@@ -358,5 +356,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/2.3.6/js/dataTables.js"></script>
+<script src="scriptadmin.js"></script>
+
+<script>
+$(document).ready(function(){
+    $('.btn-remover').click(function(){
+        const botao = $(this);
+        const id = botao.data('id');
+
+        if(confirm('Tem a certeza que quer apagar este item do menu?')) {
+            $.post('../admin_gestao/remover_menu.php', { id: id }, function(resposta){
+                if(resposta.trim() === 'ok'){
+                    botao.closest('tr').remove();
+                } else {
+                    alert('Erro ao apagar o item do menu.');
+                }
+            });
+        }
+    });
+});
+</script>
+
 </body>
 </html>

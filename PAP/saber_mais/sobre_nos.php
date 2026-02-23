@@ -23,6 +23,9 @@ if (!isset($utilizador)) {
     <title>Suporte</title>
 </head>
 <body>
+           <a href="../saber_mais/saber_mais.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 
     <div class="bg">
     <div class="overlay"></div>
@@ -54,12 +57,6 @@ if (!isset($utilizador)) {
         </a>
     </div>
 </div>
-<br>
-  <div class="caixa-container">
-  <div class="botao-link"  onclick="window.location.href='./saber_mais.php';">Voltar atrás</div>
-</div>
-
-
   </div>
 </div>
 </div>

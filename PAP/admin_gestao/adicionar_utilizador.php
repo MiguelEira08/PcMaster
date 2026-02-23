@@ -85,45 +85,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/admin_criar.css">
 </head>
 <body>
+        <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
+
 <div class="bg">
   <div class="overlay"></div>
     <div class="content">
 
       <form method="POST" enctype="multipart/form-data">
-        <h2>Adicionar Utilizador</h2>
+        <h1>Adicionar Utilizador</h1>
 
         <?php if ($erro): ?>
           <p class="error-message"><?= htmlspecialchars($erro) ?></p>
         <?php elseif ($sucesso): ?>
           <p style="color: green; font-weight: bold;"><?= htmlspecialchars($sucesso) ?></p>
         <?php endif; ?>
-
-        <label for="nome">Nome:</label>
+<br><br>  
+        <label for="nome">Nome</label>
         <input type="text" name="nome" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : '' ?>" required>
-            <br>
+<br><br>  
 
-        <label for="email">E-mail:</label>
+        <label for="email">E-mail</label>
         <input type="email" name="email" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>" required>
-
-        <label for="numtel">Telefone (9 dígitos):</label>
+<br><br>  
+        <label for="numtel"> Nº de Telefone (9 dígitos)</label>
         <input type="text" name="numtel" value="<?= isset($_POST['numtel']) ? htmlspecialchars($_POST['numtel']) : '' ?>" required pattern="\d{9}" title="Introduza 9 dígitos.">
-
-        <label for="password">Password:</label>
+<br><br>  
+        <label for="password">Password</label>
         <input type="password" name="password" required minlength="6">
-
-        <label for="tipo">Tipo:</label>
+<br><br>  
+        <label for="tipo">Tipo</label>
         <select name="tipo" required>
             <option value="utilizador" <?= isset($_POST['tipo']) && $_POST['tipo'] === 'utilizador' ? 'selected' : '' ?>>Utilizador</option>
             <option value="admin" <?= isset($_POST['tipo']) && $_POST['tipo'] === 'admin' ? 'selected' : '' ?>>Admin</option>
         </select>
-
-        <label for="foto">Foto de Perfil:</label>
+<br><br>  
+        <label for="foto">Foto de Perfil</label>
         <input type="file" name="foto" accept="image/*">
 
         <br><br>
         <div align="center"><button type="submit" class="botao">Adicionar Utilizador</button></div>
-        <br>
-        <div align="center"><button type="button" class="botao2" onclick="window.location.href='../admin/gerir_utilizadores.php';">Voltar</button></div>
+
+
       </form>
 
     </div>

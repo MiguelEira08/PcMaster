@@ -20,13 +20,16 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.css" />
 </head>
 <body>
+        <a href="../admin/admin_utilizadores.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
  <div class="overlay"></div>
   <br><br><br>
   <div class="content">
 
-    <h2>Gestão de Contas</h2>
-    <a href="../admin_gestao/adicionar_utilizador.php" class="btn criar" style="margin-bottom:15px;">Adicionar Conta</a>
+    <h1>Gestão de Contas</h1>
+    <a href="../admin_gestao/adicionar_utilizador.php" class="btn criar">Adicionar Conta</a>
 
 <div class="table-container">
    <table id="tabela" class="datatable">
@@ -67,14 +70,12 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
             echo "<td>{$row['tipo']}</td>";
 
             echo '<td class="acoes">';
-
-            if ($row['tipo'] === 'admin') {
-                echo '<button class="btn remover" onclick="removerAdmin(' . $row['id'] . ', this)">Apagar</button>';
-            } else {
-                echo '<button class="btn remover" onclick="removerUtilizador(' . $row['id'] . ', this)">Apagar</button>';
-            }
-
             echo ' <a href="../admin_gestao/editar_utilizador.php?id=' . $row['id'] . '" class="btn editar">Editar</a>';
+             if ($row['tipo'] === 'admin') {
+                echo '<a href="#" class="btn remover" onclick="removerAdmin(' . $row['id'] . ', this)">Apagar</a>';
+            } else {
+                echo '<a href="#" class="btn remover" onclick="removerUtilizador(' . $row['id'] . ', this)">Apagar</a>';
+            }
             echo '</td>';
             echo '</tr>';
         }
@@ -85,9 +86,7 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     </tbody>
   </table>
 
-        <center>
-            <a href="../admin/admin_utilizadores.php" class="btn voltar" style="margin-top:15px;">Voltar atrás</a>
-        </center>
+    
 
 </div>
 

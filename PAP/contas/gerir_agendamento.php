@@ -188,7 +188,7 @@ foreach ($agendamentos as $a) {
                             <div class="encomenda-card">
                                 <div class="card-header">
                                     <span class="order-id">#<?= $a['id'] ?></span>
-                                    <span class="status-badge pendente">Pendente</span>
+                                    <span class="status-badge pendente2">Pendente</span>
                                 </div>
                                 <div class="card-body">
                                     <?php if ($is_admin): ?>
@@ -204,9 +204,9 @@ foreach ($agendamentos as $a) {
                                             <input type="hidden" name="id" value="<?= $a['id'] ?>">
                                             <?php if ($is_admin): ?>
                                                 <button type="submit" name="action" value="confirmado" class="botao" style="padding: 8px 16px; font-size: 12px;">Confirmar</button>
-                                                <button type="submit" name="action" value="cancelado" class="botao" style="padding: 8px 16px; font-size: 12px;" onclick="return confirm('Cancelar agendamento?')">Cancelar</button>
+                                                <button type="submit" name="action" value="cancelado" class="botao" onclick="return confirm('Cancelar agendamento?')">Cancelar</button>
                                             <?php else: ?>
-                                                <button type="submit" name="action" value="cancelado" class="botao" style="padding: 8px 16px; font-size: 12px;" onclick="return confirm('Tens a certeza?')">Cancelar</button>
+                                                <button type="submit" name="action" value="cancelado" class="botao-cancelar" style="padding: 8px 16px; font-size: 12px;" onclick="return confirm('Tens a certeza?')">Cancelar</button>
                                             <?php endif; ?>
                                         </form>
                                     </div>
@@ -266,7 +266,7 @@ foreach ($agendamentos as $a) {
                             <div class="encomenda-card">
                                 <div class="card-header">
                                     <span class="order-id">#<?= $a['id'] ?></span>
-                                    <span class="status-badge concluido">Concluído</span>
+                                    <span class="status-badge entregue">Concluído</span>
                                 </div>
                                 <div class="card-body">
                                     <?php if ($is_admin): ?>
@@ -294,7 +294,7 @@ foreach ($agendamentos as $a) {
                             <div class="encomenda-card">
                                 <div class="card-header">
                                     <span class="order-id">#<?= $a['id'] ?></span>
-                                    <span class="status-badge cancelado">Cancelado</span>
+                                    <span class="status-badge pendente">Cancelado</span>
                                 </div>
                                 <div class="card-body">
                                     <?php if ($is_admin): ?>

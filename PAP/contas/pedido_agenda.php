@@ -65,12 +65,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'pcmastergeral@gmail.com'; 
-                $mail->Password   = 'TUA_NOVA_PASSWORD_AQUI'; // LEMBRA-TE DE MUDAR ISTO!
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Password   = 'mjsv oxar shbz dfzp'; 
+                $mail->SMTPSecure = 'tls';
                 $mail->Port       = 587;
 
                 $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster Agendamentos');
-                $mail->addAddress('migueleira08@gmail.com', 'Administrador');
+                $mail->addAddress('migueleira08@gmail.com', 'Miguel');
+                $mail->addAddress('al.919783@aeaav.pt', 'Gustavo');
                 
                 $mail->isHTML(true);
                 $mail->Subject = 'Novo Agendamento - ' . mb_convert_case($tipo_servico, MB_CASE_TITLE, "UTF-8");

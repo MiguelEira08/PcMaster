@@ -32,12 +32,15 @@ $queryFiltros = http_build_query([
 
 </head>
 <body>
+               <a href="../admin/admin_dashboard.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
     <div class="overlay"></div>
     <br><br><br>
     <div class="content">
-        <h2>Gestão de Componentes</h2>
-            <a href="../admin_gestao/adicionar_componentes.php" class="btn criar" style="margin-left:10px;">Adicionar Componentes</a>
+        <h1>Gestão de Componentes</h1>      
+            <a href="../admin_gestao/adicionar_componentes.php" class="btn criar">Adicionar Componentes</a>
 
         <div class="table-container">
            <table id="tabela" class="datatable">
@@ -101,9 +104,9 @@ $queryFiltros = http_build_query([
                         echo '<td>' . ($row['desconto'] ? $row['desconto'] . '%' : '-') . '</td>';
 
                         echo '<td><img src="../imagens/' . htmlspecialchars($row['caminho_arquivo']) . '" width="60" alt="Imagem do componente"></td>';
-                        echo '<td class="acoes">';
+                        echo '<td class="acoes">';                                    
                         echo '  <a href="../admin_gestao/editar_componentes.php?id=' . $row['id'] . '&' . $queryFiltros . '#linha-' . $row['id'] . '" class="btn editar">Editar</a>';                    
-                        echo '  <button class="btn btn-remover" data-id="' . $row['id'] . '">Apagar</button>';
+                        echo '  <a href="#" class="btn remover btn-remover" data-id="' . $row['id'] . '">Apagar</a>';
                         echo '</td>';
                         echo '</tr>';
                     }
@@ -113,31 +116,28 @@ $queryFiltros = http_build_query([
                 ?>
                 </tbody>
             </table>
-            <center>
-            <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-top:15px;">Voltar á Dashboard</a>
-            </center>
+           
         </div>
+
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/2.3.6/js/dataTables.js"></script>
 <script src="scriptadmin.js"></script>
 <script>
-$(document).ready(function(){
-    $('.btn-remover').click(function(){
-        const botao = $(this);
-        const id = botao.data('id');
+$(document).on('click', '.btn-remover', function(){
+    const botao = $(this);
+    const id = botao.data('id');
 
-        if(confirm('Tem certeza que quer remover este componente?')) {
-            $.post('../admin_gestao/remover_componente.php', { id: id }, function(resposta){
-                if(resposta.trim() === 'ok'){
-                    botao.closest('tr').remove();
-                } else {
-                    alert('Erro ao remover o componente.');
-                }
-            });
-        }
-    });
+    if(confirm('Tem certeza que quer remover este componente?')) {
+        $.post('../admin_gestao/remover_componente.php', { id: id }, function(resposta){
+            if(resposta.trim() === 'ok'){
+                botao.closest('tr').fadeOut();
+            } else {
+                alert('Erro ao remover o componente.');
+            }
+        });
+    }
 });
 </script>
 <script>

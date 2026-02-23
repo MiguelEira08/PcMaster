@@ -17,46 +17,23 @@ $estadoF = filter_input(INPUT_GET, 'estado',  FILTER_SANITIZE_FULL_SPECIAL_CHARS
     <title>Painel de Administração – Compras</title>
     <link rel="stylesheet" href="../css/admin_produto.css">
     <link rel="icon" type="image/png" href="../imagens/icon.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.css" />
 </head>
 <body>
+                   <a href="../admin/admin_dashboard.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
     <div class="overlay"></div>
     <br><br><br>
-    <div class="content">   
-        <table class="admin-table">
+    <div class="content">  
+        <h1>Compras por Utilizador</h1>
+        <div class="table-container"> 
+        <table id="tabela" class="datatable">
             <thead>
-                <tr><th colspan="8"><h2>Compras por Utilizador</h2></th></tr>
-                <tr>
-                    <td colspan="8">
-                        <form method="GET" class="form-filtros">
-                            <label for="user_id">Utilizador:</label>
-                            <select name="user_id" id="user_id">
-                                <option value="">Todos</option>
-                                <?php
-                                $resUsers = mysqli_query($conn, "SELECT DISTINCT u.id, u.nome
-                                                                 FROM utilizadores u
-                                                                 JOIN fim_compra fc ON fc.utilizador_id = u.id
-                                                                 ORDER BY u.nome ASC");
-                                while ($u = mysqli_fetch_assoc($resUsers)) {
-                                    $sel = ($userId !== null && $userId !== '' && (int)$u['id'] === (int)$userId) ? 'selected' : '';
-                                    echo '<option value="' . $u['id'] . '" ' . $sel . '>' . htmlspecialchars($u['nome']) . '</option>';
-                                }
-                                ?>
-                            </select>
-                            <label for="estado">Estado:</label>
-                            <select name="estado" id="estado">
-                                <?php
-                                $estados = ['' => 'Todos', 'Pendente' => 'Pendente', 'A caminho' => 'A caminho', 'Entregue' => 'Entregue'];
-                                foreach ($estados as $val => $label) {
-                                    $sel = ($estadoF !== null && (string)$estadoF === (string)$val && $val !== '') ? 'selected' : '';
-                                    echo '<option value="' . $val . '" ' . $sel . '>' . $label . '</option>';
-                                }
-                                ?>
-                            </select>
-                            <button type="submit" class="btn voltar">Filtrar</button>
-                        </form>
-                    </td>
-                </tr>
+                
+
                 <tr>
                     <th>Utilizador</th>
                     <th>Email</th>
@@ -124,10 +101,20 @@ $estadoF = filter_input(INPUT_GET, 'estado',  FILTER_SANITIZE_FULL_SPECIAL_CHARS
             ?>
             </tbody>
         </table>
-        <center>
-            <a href="admin_dashboard.php" class="btn voltar">Voltar á Dashboard</a>
-        </center>
+        </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/2.3.6/js/dataTables.js"></script>
+<script>
+$(document).ready(function(){
+    new DataTable('#tabela', {
+        order: [[3, 'desc']], // ordena por Data
+        language: {
+           url: 'https://cdn.datatables.net/plug-ins/2.3.6/i18n/pt-PT.json'
+        }
+    });
+});
+</script>
 </body>
 </html>

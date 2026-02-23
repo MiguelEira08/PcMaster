@@ -136,7 +136,7 @@ a:-webkit-any-link {
  .estado-bloco {
     flex: 1;
     min-width: 300px;
-    background: rgba(255, 255, 255, 0.1); 
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: 15px;
@@ -154,7 +154,9 @@ a:-webkit-any-link {
 .botao-link {
   width: 200px;
   height: 60px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(15px);
   color: rgb(0, 0, 0);
   font-family: "Poppins",sans-serif;
   font-weight: bold;
@@ -171,7 +173,7 @@ a:-webkit-any-link {
 .botao-link:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: rgb(0, 0, 0);
+  color: chocolate;
 }
 .cards-container {
     display: flex;
@@ -215,6 +217,8 @@ a:-webkit-any-link {
 .status-badge.pendente { background: #ff0000; color: #000; }
 .status-badge.caminho { background: #df7700; color: #000; }
 .status-badge.entregue { background: #147401; color: #000 ; }
+.status-badge.confirmado { background: #df7700; color: #000 ; }
+.status-badge.pendente2 { background: burlywood; color: #000; }
 
 .empty-msg {
     color: #ddd;
@@ -243,6 +247,27 @@ a:-webkit-any-link {
   text-decoration: none;
 }
 .voltar-fixo:hover {
+  transform: scale(1.1);
+  background-color: burlywood;
+  color: chocolate;
+}
+.botao-cancelar {
+  width: 150px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.5);
+  color: rgb(0, 0, 0);
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  font-size: 1rem;
+  display: flex;
+  border: 1px solid #5f5f5f;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+}
+.botao-cancelar:hover {
   transform: scale(1.1);
   background-color: burlywood;
   color: chocolate;

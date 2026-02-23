@@ -7,9 +7,8 @@
 }
 
 h1 {
-  margin-top: 250px;
   font-family: 'Poppins', sans-serif;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
 }
 h3 {
   font-family: 'Poppins', sans-serif;
@@ -309,7 +308,8 @@ font-family: 'Poppins', sans-serif;
 
 
 form{
-    background-color: #fff ;
+   background: rgba(255, 255, 255, 0.5);
+backdrop-filter: blur(1px); 
     color: #ffffff ;
     padding: 20px;
     border-radius: 8px;
@@ -333,11 +333,12 @@ form h2 {
 }
 form label {
   font-weight: bold;
-  color: #333;
+  color: #000000;
   margin-bottom: 4px;
 }
 form input, form select {
-  background-color: #fff;
+    background: rgba(255, 255, 255, 0.5);
+backdrop-filter: blur(1px); 
   border: 1px solid #ccc;
   padding: 10px;
   font-size: 15px;
@@ -348,18 +349,20 @@ form input, form select {
 
 
 .botao {
+  background: rgba(255, 255, 255, 0.5);
+backdrop-filter: blur(1px); 
   margin-top: auto;
   width: 200px;
   height: 45px;
   color: black;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.0rem;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  border: 1px solid #ffffff;
+  border: 1px ;
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
@@ -368,7 +371,7 @@ form input, form select {
 .botao:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: white;
+  color: chocolate;
 }
 .botao2 {
   margin-top: auto;
@@ -421,13 +424,7 @@ form input, form select {
   color: chocolate;
 }
 
-.linha-botoes {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 50px 80px;
-  flex-wrap: wrap;
-}
+
 
 .bloco {
   max-width: 45%;

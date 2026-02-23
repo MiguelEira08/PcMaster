@@ -191,10 +191,11 @@ input[type="number"] {
   background-color: burlywood;
   color: chocolate;
 }
-.btn-adicionar2 {
-  width: auto;
-  height: auto;
-  color: black;
+.voltar-fixo {
+  width: 200px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.5);
+  color: rgb(0, 0, 0);
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.1rem;
@@ -202,16 +203,16 @@ input[type="number"] {
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  border: 1px;
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
-   background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(1px);
-    padding: 9px;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999; 
+  text-decoration: none;
 }
-
-.btn-adicionar2:hover {
+.voltar-fixo:hover {
   transform: scale(1.1);
   background-color: burlywood;
   color: chocolate;

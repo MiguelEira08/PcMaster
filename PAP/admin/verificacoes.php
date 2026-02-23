@@ -20,12 +20,15 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.css" />
 </head>
 <body>
+        <a href="../admin/admin_utilizadores.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
  <div class="overlay"></div>
   <br><br><br>
   <div class="content">
 
-    <h2>Gestão de Verificação de Utilizadores</h2>
+    <h1>Gestão de Verificação de Utilizadores</h1>
 
 <div class="table-container">
    <table id="tabela" class="datatable">
@@ -81,11 +84,9 @@ if ($result && mysqli_num_rows($result) > 0) {
     </tbody>
   </table>
 
-        <center>
-            <a href="../admin/admin_utilizadores.php" class="btn voltar" style="margin-top:15px;">Voltar atrás</a>
-        </center>
 
 </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/2.3.6/js/dataTables.js"></script>

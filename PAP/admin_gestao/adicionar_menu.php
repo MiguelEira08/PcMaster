@@ -70,13 +70,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
+        <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
+
 <div class="bg">
     <div class="overlay"></div>
 
     <div class="content">
         <form method="POST">
-            <h2>Adicionar Item ao Menu</h2>
-
+            <h1>Adicionar Item ao Menu</h1>
+<br>
    <?php if ($erro): ?>
     <p class="error-message"><?= htmlspecialchars($erro) ?></p>
 
@@ -96,13 +100,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 <?php endif; ?>
 
-            <label for="nome">Nome do Menu:</label>
+            <label for="nome">Nome do Menu</label>
             <input type="text" name="nome" required>
-
-            <label for="link">Link:</label>
+<br><br>
+            <label for="link">Link</label>
             <input type="text" name="link" placeholder="ex: index.php" required>
-
-            <label for="tipo">Visível para:</label>
+<br><br>
+            <label for="tipo">Visível para</label>
             <select name="tipo" required>
                 <?php foreach ($tiposMenu as $valor => $label): ?>
                     <option value="<?= htmlspecialchars($valor) ?>">
@@ -110,25 +114,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </option>
                 <?php endforeach; ?>
             </select>
-            <label for="ordem">Ordem:</label>
+<br><br>
+            <label for="ordem">Ordem</label>
             <input type="number" name="ordem" value="1" required>
 <br><br>
-            <label>
-                <input type="checkbox" name="ativo" checked>
-                Ativo
+            <div class="checkbox-linha">
+                <label for="ativo">Ativo</label>
+                <input type="checkbox" id="ativo" name="ativo" checked>
+            </div>
             </label>
 
-            <br><br>
+<br>
             <div align="center">
                 <button type="submit" class="botao">Adicionar ao Menu</button>
             </div>
             <br>
-            <div align="center">
-                <button type="button" class="botao2"
-                        onclick="window.location.href='../admin/admin_menu.php';">
-                    Voltar
-                </button>
-            </div>
+
         </form>
     </div>
 </div>

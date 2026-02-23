@@ -14,7 +14,7 @@ include_once __DIR__ . '/../cabecindex.php';
     <link rel="icon" type="image/png" href="../imagens/icon.png">
 </head>
 <body>
-   <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+   <a href="../index/index.php" class="botao-voltar voltar-fixo">
     ← Voltar
 </a>
     <div class= "bg">

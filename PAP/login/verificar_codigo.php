@@ -85,7 +85,7 @@ if (!$user) {
 
                 <input type="hidden" name="email" value="<?= htmlspecialchars($email) ?>">
 
-                <h2>Verificação de Conta</h2>
+                <h2 class="amiko-semibold" style="color:black;">Verificação de Conta</h2>
                 <img src="../imagens/logo.png" height="180px">
 
                 <?php if ($erro): ?>
@@ -102,7 +102,7 @@ if (!$user) {
                 <?php endif; ?>
 
                 <?php if (!$mensagem): ?>
-                    <label>Introduz o código de 6 dígitos:</label>
+                    <label class="amiko-semibold">Introduz o código de 6 dígitos:</label>
                     <input 
                         type="text" 
                         name="codigo" 
@@ -110,6 +110,7 @@ if (!$user) {
                         pattern="\d{6}" 
                         placeholder="Ex: 123456"
                         required
+                        style="font-family: 'Poppins', sans-serif;"     
                     >
 
                     <br><br>

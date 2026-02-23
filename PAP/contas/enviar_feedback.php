@@ -3,8 +3,6 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-$_SESSION['voltar_inteligente'] = 'conta.php';
-include_once __DIR__ . '/../botao_voltar.php';
 include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';
 require_once '../PHPMailer/PHPMailer.php';
@@ -67,10 +65,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
                 $mail->addAddress('migueleira08@gmail.com', 'Miguel');
+                $mail->addAddress('al.919783@aeaav.pt', 'Gustavo');
                 $mail->isHTML(true);
                 $mail->Subject = "Novo Feedback Recebido";
 
                 $mail->Body = "
+                <h2>Olá, Administrador!</h2>
+                <p>Recebemos um novo feedback de um utilizador. Abaixo estão os detalhes:</p>
                     <p><strong>Nome do utilizador:</strong> {$nomeUtilizador}</p>
                     <p><strong>Origem do erro:</strong> " . ($origem ?: 'Não especificado') . "</p>
                     <p><strong>Motivo do erro:</strong> {$motivo}</p>
@@ -96,6 +97,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/conta.css">
 </head>
 <body>
+           <a href="../contas/conta.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
     <div class="overlay"></div>
     <div class="content">
@@ -120,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
-        <h2>Enviar Feedback</h2>
+        <h1>Enviar Feedback</h1>
         <br>
             <div style="text-align: center;">
             <label for="Motivo">Motivo do Feedback:</label>
@@ -132,9 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="feedback">Mensagem:</label><br>
             <input type="text" name="feedback" id="feedback" maxlength="100"><br>
 
-           <div align="center"><button type="submit" class="botao">Enviar Feedback</button></div> 
-            <br>
-        <div align="center"><button type="button" class="botao2" onclick="window.location.href='./conta.php';">Voltar</button></div>
+           <div align="center"><button type="submit" class="botao">Enviar Feedback</button></div>   
             </div>
         </form>
 

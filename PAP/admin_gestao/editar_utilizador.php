@@ -111,14 +111,18 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     <title>Editar Utilizador</title>
     <link rel="stylesheet" href="../css/admin_criar.css">
 </head>
-<body>
+<body>   
+<a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
+
 
 <div class="bg">
  <div class="overlay"></div>
  <div class="content">
 
   <form method="POST" enctype="multipart/form-data">
-    <h2>Editar Utilizador</h2>
+    <h1>Editar Utilizador</h1>
 
     <?php if ($erro): ?>
         <p class="error-message"><?= htmlspecialchars($erro) ?></p>
@@ -131,25 +135,25 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
         <label>Foto de Perfil Atual:</label>
         <br><br>
         <img src="../<?= $utilizador['caminho_arquivo'] ?>" 
-             style="width:120px; height:120px; border-radius:50%; object-fit:cover; border:2px solid #fff;">
+             style="width:120px; height:120px; border-radius:50%; object-fit:cover; border:2px solid #fff; font-family: 'Poppins', sans-serif;">
         <br><br>
 
         <label>Alterar Foto:</label>
         <input type="file" name="foto" accept="image/*">
-
+ <br><br>
         <label>Nome:</label>
         <input type="text" name="nome" value="<?= htmlspecialchars($utilizador['nome']) ?>" required>
-
+ <br><br>
         <label>E-mail:</label>
         <input type="email" name="email" value="<?= htmlspecialchars($utilizador['email']) ?>" required>
-
+ <br><br>
         <label>Telefone (9 dígitos):</label>
         <input type="text" name="numtel" value="<?= htmlspecialchars($utilizador['numtel']) ?>"
                required pattern="\d{9}" title="Introduza 9 dígitos">
-
+ <br><br>
         <label>Nova password:<br><small>(Deixe em branco para manter a atual)</small></label>
         <input type="password" name="password" minlength="6">
-
+ <br><br>
         <label>Tipo:</label>
         <select name="tipo" required>
             <option value="utilizador" <?= $utilizador['tipo'] === 'utilizador' ? 'selected' : '' ?>>Utilizador</option>
@@ -158,9 +162,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 
         <br><br>
         <div align="center"><button type="submit" class="botao">Guardar alterações</button></div>
-        <br>
-        <div align="center"><button type="button" class="botao2" onclick="window.location.href='../admin/gerir_utilizadores.php';">Voltar</button></div>
-
+    
     <?php endif; ?>
 
   </form>

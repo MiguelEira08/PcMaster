@@ -59,12 +59,15 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.css" />
 </head>
 <body>
+                       <a href="../admin/admin_dashboard.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
     <div class="overlay"></div>
     <br><br><br>
     <div class="content">
         <div class="admin-container">
-            <h2>Gestão de Feedback</h2>
+            <h1>Gestão de Feedback</h1>
 
             <?php if ($result->num_rows > 0): ?>
                    <table  id="tabela" class="datatable">
@@ -104,13 +107,12 @@ $result = $stmt->get_result();
             <?php else: ?>
                 <p>Nenhum feedback encontrado com os critérios selecionados.</p>
             <?php endif; ?>
-            <center>
-            <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-top: 20px;">Voltar</a>
-            </center>
+            
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/2.3.6/js/dataTables.js"></script>
 <script src="scriptadmin.js"></script>
         </div>
+
     </div>
 </div>
 </body>

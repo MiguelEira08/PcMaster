@@ -200,15 +200,12 @@ if (isset($_POST['confirmar_compra'])) {
   <link rel="stylesheet" href="../css/comprar.css">
 </head>
 <body>
+    <a href="javascript:history.back()" class="botao-voltar voltar-fixo">← Voltar</a>
 <div class="bg">
   <div class="overlay"></div>
   <div class="content">
-    <?php if (isset($_GET['compra_ok'])): ?>
-        <h2>Compra finalizada com sucesso!</h2>
-        <p><a href="../index/index.php">Voltar à página inicial</a></p>
-    <?php else: ?>
         <form method="POST">
-          <h2>Finalizar Compra</h2>
+          <h1>Finalizar Compra</h1>
 
           <?php if ($erros): ?>
             <ul class="error-message">
@@ -217,9 +214,9 @@ if (isset($_POST['confirmar_compra'])) {
               <?php endforeach; ?>
             </ul>
           <?php endif; ?>
-
+<br>
           <label>Rua:</label>
-          <input type="text" name="rua" value="<?= htmlspecialchars($rua ?? '') ?>" required>
+          <input type="text" name="rua" value="<?= htmlspecialchars($rua ?? '') ?>" required><br>
 
           <label>Distrito:</label>
           <select name="distrito" required>
@@ -227,20 +224,18 @@ if (isset($_POST['confirmar_compra'])) {
             <?php foreach ($distritos as $d): ?>
               <option value="<?= $d ?>" <?= (($distrito ?? '') === $d) ? 'selected' : '' ?>><?= $d ?></option>
             <?php endforeach; ?>
-          </select>
+          </select><br>
 
           <label>Código Postal:</label>
           <input type="text" name="codigo_postal" placeholder="1234-567"
-                 value="<?= htmlspecialchars($codigo_postal ?? '') ?>" required>
+                 value="<?= htmlspecialchars($codigo_postal ?? '') ?>" required><br>
 
           <label>Número do Cartão:</label>
           <input type="text" name="numero_cartao" placeholder="Somente dígitos" required>
             <br>
-           <div align="center"><button type="submit" class="botao">Finalizar compra</button></div> 
-            <br>
-        <div align="center"><button type="button" class="botao2" onclick="window.location.href='./carrinho.php';">Voltar</button></div>
+           <div align="center"><button type="submit" name="confirmar_compra" class="botao">Finalizar compra</button></div> 
         </form>
-    <?php endif; ?>
+    
   </div>
 </div>
 </body>

@@ -14,9 +14,7 @@ if ($conn->connect_error) {
     die("Erro na ligação: " . $conn->connect_error);
 }
 
-if (isset($_GET['compra_ok'])) {
-    echo '<script>alert("Compra finalizada com sucesso!");</script>';
-}
+
 
 $componentes = $conn->query("
     SELECT c.id AS carrinho_id, c.quantidade, comp.nome, comp.preco, comp.descricao, comp.caminho_arquivo, comp.marca
@@ -49,19 +47,16 @@ $total_geral = 0;
 </head>
 
 <body>
+         <a href="../index/index.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
   <div class="overlay"></div>
   <div class="content">
-    <h2 align="center" class="amiko-semibold">Produtos no Carrinho</h2>
+    <big><big><h1 align="center" class="amiko-semibold">Produtos no Carrinho</h1></big></big>
     <br>
-    <h1 align="center" class="amiko-semibold"><b>Olá, <?= htmlspecialchars($_SESSION['nome']) ?>!</b></h1>
-    <br>
-    <h4 align="center" class="amiko-semibold">Aqui estão os produtos que adicionaste ao teu carrinho:</h4>
-    <br>
-    <h4 align="center" class="amiko-semibold">Podes remover produtos do carrinho ou finalizar a compra.</h4>
-    <br><br>
 
-    <h1 class="amiko-semibold">Componentes</h1>
+    <h2 class="amiko-semibold">Componentes</h2>
     <br>
     <?php if ($componentes && $componentes->num_rows > 0): ?>
       <div class="grade-produtos">
@@ -89,7 +84,7 @@ $total_geral = 0;
     <?php endif; ?>
 
     <br>
-    <h1 class="amiko-semibold">Periféricos</h1>
+    <h2 class="amiko-semibold">Periféricos</h2>
     <br>
     <?php if ($perifericos && $perifericos->num_rows > 0): ?>
       <div class="grade-produtos">
@@ -129,5 +124,41 @@ $total_geral = 0;
     <?php endif; ?>
     
 </div>
+<?php if (isset($_GET['compra_ok'])): ?>
+<div id="toast" class="toast">Compra finalizada com sucesso!</div>
+
+<script>
+  const toast = document.getElementById("toast");
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    window.history.replaceState({}, document.title, "carrinho.php");
+  }, 3000);
+</script>
+
+<style>
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: burlywood;
+  color: black;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  font-weight: bold;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+<?php endif; ?>
 </body>
 </html>

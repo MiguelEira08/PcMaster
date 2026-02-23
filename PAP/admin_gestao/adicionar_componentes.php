@@ -83,66 +83,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 </head>
 <body>
+        <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
+
 <div class="bg">
   <div class="overlay"></div>
     <div class="content">
     <form method="POST" enctype="multipart/form-data">
-        <h2>Adicionar Componente</h2>
-
+        <h1>Adicionar Componente</h1>
+<br>
         <?php if ($erro): ?>
             <p class="error-message"><?= htmlspecialchars($erro) ?></p>
         <?php elseif ($sucesso): ?>
             <p style="color: green; font-weight: bold;"><?= htmlspecialchars($sucesso) ?></p>
         <?php endif; ?>
 
-        <label for="nome">Nome:</label>
-        <input type="text" name="nome" required>
-
-        <label for="preco">Preço (€):</label>
-        <input type="number" step="0.01" name="preco" required>
-
-        <label for="descricao">Descrição:</label>
+        <label for="nome">Nome</label>
+        <input type="text" name="nome" required  placeholder="Insira aqui o Nome do Componente">
+<br><br>  
+        <label for="preco">Preço (€)</label>
+        <input type="number" step="0.01" name="preco" required  placeholder="Insira aqui o Preço do Componente">
+<br><br>  
+        <label for="descricao">Descrição</label>
         <textarea 
             name="descricao" 
             id="descricao"
             rows="6"
             placeholder="Faz uma descrição do componente"
-            style="resize: none; width: 100%; height: 120px; font-family: inherit; font-size: 1rem; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"
-            required
-        ></textarea>
-
-        <label for="stock">Stock:</label>
-        <input type="number" name="stock" required>
-
-        <label for="marca">Marca:</label>
+            style="resize: none; width: 100%; height: 120px; font-family: inherit; font-size: 1rem; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"required></textarea>
+<br><br>  
+        <label for="stock">Stock</label>
+        <input type="number" name="stock" required placeholder="Insira aqui a quantidade em Stock do Componente">
+<br><br>  
+        <label for="marca">Marca</label>
         <select name="marca" required>
             <?php foreach ($marcas as $marcaOption): ?>
                 <option value="<?= htmlspecialchars($marcaOption) ?>"><?= htmlspecialchars($marcaOption) ?></option>
             <?php endforeach; ?>
         </select>
-
-        <label for="tipo">Tipo:</label>
+<br><br>  
+        <label for="tipo">Tipo</label>
         <select name="tipo" required>
             <?php foreach ($tipos as $tipoOption): ?>
                 <option value="<?= htmlspecialchars($tipoOption) ?>"><?= htmlspecialchars(ucfirst($tipoOption)) ?></option>
             <?php endforeach; ?>
         </select>
-
+<br><br>  
         <label>Desconto (%)</label>
-        <input type="number" name="desconto" step="0.01" min="0" max="100">
-
+        <input type="number" name="desconto" step="0.01" min="0" max="100" placeholder="Insira aqui o valor do desconto">
+<br><br>  
         <label>Início do desconto</label>
         <input type="datetime-local" name="tempoinicio_desconto">
-
+<br><br>  
         <label>Fim do desconto</label>
         <input type="datetime-local" name="tempofim_desconto">
-
-        <label for="imagem">Imagem:</label>
-        <input type="file" name="imagem" accept="image/*" required>
+<br><br>  
+        <label for="imagem">Imagem</label>
+        <input type="file" name="imagem" accept="image/*">
             <br><br>
            <div align="center"><button type="submit" class="botao">Adicionar Componente</button></div> 
-            <br>
-        <div align="center"><button type="button" class="botao2" onclick="window.location.href='../admin/admin_componentes.php';">Voltar</button></div>
+          
     </form>
 </div>
 </div>

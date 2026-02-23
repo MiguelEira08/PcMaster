@@ -14,6 +14,9 @@ include_once __DIR__ . '/../cabecindex.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+     <a href="../comparar/comparar.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
     <div class="overlay"></div>  
     <div class="content">
@@ -88,9 +91,6 @@ include_once __DIR__ . '/../cabecindex.php';
         </li>
       </ul>
 <br>
-        <div class="caixa-container">
-            <div class="botao-link"  onclick="window.location.href='./comparar.php';">Voltar atrás</div>
-</div>
 </div>
 
 

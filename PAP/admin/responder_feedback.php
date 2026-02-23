@@ -4,6 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../cabecindex.php';
 
 if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     header("Location: ../index/index.php");
@@ -138,27 +139,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['responder'])) {
     <link rel="stylesheet" href="../css/admin_dash.css">
 </head>
 <body>
+                <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
     <div class="overlay"></div>
     <div class="content">
         <div class="admin-container">
-            <h2>Responder ao Feedback</h2>
-
+            <h1>Responder ao Feedback</h1>
+<br>
             <?php if (!empty($feedback_texto)): ?>
                 <p><strong>Utilizador:</strong> <?= htmlspecialchars($nome_utilizador) ?></p>
+                <br>
                 <p><strong>Data:</strong> <?= htmlspecialchars($data_envio) ?></p>
+                <br>
                 <p><strong>Motivo:</strong> <?= htmlspecialchars($motivo) ?></p>
+                <br>
                 <p><strong>Origem:</strong> <?= htmlspecialchars($origem) ?></p>
-                <p><strong>Mensagem:</strong><br><?= nl2br(htmlspecialchars($feedback_texto)) ?></p>
+                <br>
+                <p><strong>Mensagem:</strong><?= nl2br(htmlspecialchars($feedback_texto)) ?></p>
 
                 <form method="post" style="margin-top: 20px;">
                     <input type="hidden" name="feedback_id" value="<?= $feedback_id ?>">
-                    <label for="mensagem">Sua resposta:</label><br>
-                    <textarea name="mensagem" id="mensagem" required rows="6" style="width: 100%;"></textarea><br><br>
+                    <label for="mensagem"><strong>Sua resposta:</strong></label><br>
+                    <textarea name="mensagem" id="mensagem" required rows="6" style="width: 100%; border-radius: 12px; padding: 10px; background-color: rgba(255, 255, 255, 0.8);"></textarea><br><br>
             <br>
            <div align="center"><button type="submit" class="botao">Enviar Resposta</button></div> 
-            <br>
-        <div align="center"><button type="button" class="botao2" onclick="window.location.href='./feedback_cliente.php';">Voltar</button></div>
+
                 </form>
             <?php else: ?>
                 <p>Feedback não encontrado ou inválido.</p>

@@ -25,6 +25,9 @@ if (!$produto) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+        <a href="../comprar/perifericos.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
     <div class="bg">
         <div class="overlay"></div>
         <br><br><br>
@@ -72,10 +75,9 @@ if ($desconto !== null && $desconto > 0 && $inicioTime && $fimTime && $agora >= 
 <?php
 }
 ?>
+<p class="stock">Stock disponível: <b><?= (int)$produto['stock'] ?></b></p>
 
-                        <p class="stock">Stock disponível: <b><?= (int)$produto['stock'] ?></b></p>
-
-                    <form action="../carrinho/adicionar_ao_carrinho.php" method="post" class="form-carrinho">
+<form action="../carrinho/adicionar_ao_carrinho.php" method="post" class="form-carrinho">
     
     <input type="hidden" name="id_produto" value="<?= (int)$produto['id'] ?>">
     
@@ -83,6 +85,7 @@ if ($desconto !== null && $desconto > 0 && $inicioTime && $fimTime && $agora >= 
     <input type="hidden" name="tipo_produto" value="periferico"> 
 
     <label for="quantidade_<?= (int)$produto['id'] ?>">Quantidade:</label>
+    <center>
     <input type="number"
            id="quantidade_<?= (int)$produto['id'] ?>"
            name="quantidade"
@@ -90,12 +93,11 @@ if ($desconto !== null && $desconto > 0 && $inicioTime && $fimTime && $agora >= 
            min="1"
            max="<?= (int)$produto['stock'] ?>"
            required>
-
+</center>
+<br>
     <button type="submit" name="acao" value="carrinho" class="btn-adicionar">Adicionar ao carrinho</button>
     <button type="submit" name="acao" value="comprar" class="btn-adicionar">Comprar já</button>
-    <center>
-<button type="button" class="btn-adicionar2" onclick="window.location.href='./perifericos.php';">Voltar</button>
-    </center>
+
 </form>
                     </div>
                 </div>
@@ -116,8 +118,8 @@ if ($desconto !== null && $desconto > 0 && $inicioTime && $fimTime && $agora >= 
   position: fixed;
   top: 20px;
   right: 20px;
-  background-color: #28a745;
-  color: white;
+  background-color: #burlywood;
+  color: black;
   padding: 15px 25px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);

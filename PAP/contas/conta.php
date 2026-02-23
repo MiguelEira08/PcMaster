@@ -2,12 +2,6 @@
 if (session_status() === PHP_SESSION_NONE) {
    session_start();
 }
-
-if (isset($_GET['from']) && !empty($_GET['from'])) {
-    $_SESSION['origem_conta'] = $_GET['from'];
-}
-
-include_once __DIR__ . '/../botao_voltar.php';
 include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';
 
@@ -42,6 +36,9 @@ if (!empty($utilizador['caminho_arquivo'])) {
     <link rel="stylesheet" href="../css/conta.css">
 </head>
 <body>
+         <a href="../index/index.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
 <div class="overlay">
 <div class="content">

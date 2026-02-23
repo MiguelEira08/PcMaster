@@ -18,6 +18,9 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     <link rel="icon" type="image/png" href="../imagens/icon.png">
 </head>
 <body>
+                 <a href="../admin/admin_dashboard.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
     <div class= "bg">
     <div class="overlay"></div>
     <br><br>
@@ -32,10 +35,6 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     <a href="bloqueios.php" class="caixa">
       <img src="../imagens/block.png" alt="Comprar" class="caixa-imagem">Gerir Utilizadores</a>
   </div>
-  
-        <center>
-            <a href="../admin/admin_utilizadores.php" class="btn voltar" style="margin-top:15px;">Voltar atrás</a>
-        </center>
 </div>
 </div>
 </body>

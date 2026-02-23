@@ -90,7 +90,9 @@ a:-webkit-any-link {
 }
 
 form {
-  background-color: #fff;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(15px);
   border-radius: 17px;
   padding: 30px;
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
@@ -108,12 +110,14 @@ form h2 {
 
 form label {
   font-weight: bold;
-  color: #333;
+  color: #000000;
   margin-bottom: 4px;
 }
 
 form input, form select {
-  background-color: #fff;
+    background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(15px);
   border: 1px solid #ccc;
   padding: 10px;
   font-size: 15px;
@@ -122,9 +126,21 @@ form input, form select {
   color: #000;
 }
 
+form textarea {
+    background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 6px;
+  width: 100%;
+  color: #000;
+} 
 .botao {
+  background: rgba(255, 255, 255, 0.5);
   margin-top: auto;
-  width: 200px;
+  width: auto;
   height: 45px;
   color: black;
   font-family: 'Poppins', sans-serif;
@@ -134,7 +150,7 @@ form input, form select {
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  border: 1px solid #ffffff;
+  border: 1px solid #5f5f5f;
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
@@ -143,31 +159,9 @@ form input, form select {
 .botao:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: white;
-}
-.botao2 {
-  margin-top: auto;
-  width: 100px;
-  height: 45px;
-  color: black;
-  font-family: 'Poppins', sans-serif;
-  font-weight: bold;
-  font-size: 1.0rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 12px;
-  border: 1px solid #ffffff;
-  transition: transform 0.2s ease, background-color 0.3s ease;
-  cursor: pointer;
-  text-align: center;
+  color: chocolate;
 }
 
-.botao2:hover {
-  transform: scale(1.1);
-  background-color: burlywood;
-  color: white;
-}
 
 .error-message {
   color: #d00000;
@@ -197,4 +191,42 @@ form p a {
 
 form p a:hover {
   text-decoration: underline;
+}
+.checkbox-linha {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.checkbox-linha input[type="checkbox"] {
+    width: auto !important;
+    height: auto !important;
+    height: 18px;
+}
+.voltar-fixo {
+  width: 200px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.5);
+  color: rgb(0, 0, 0);
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999; 
+  text-decoration: none;
+}
+.voltar-fixo:hover {
+  transform: scale(1.1);
+  background-color: burlywood;
+  color: chocolate;
 }

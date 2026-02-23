@@ -127,11 +127,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
+        <a href="../index/index.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
     <div class="overlay">
         <center>
         <form method="POST" action="">
-            <h2 class="amiko-semibold">Login</h2>
+            <b><h2 class="amiko-semibold">Login</h2></b>
             <img src="../imagens/logo.png" height="200px" width="200px">
 
             <?php if ($erro): ?>
@@ -139,16 +142,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <label class="amiko-semibold">Nome de Utilizador</label>
-            <input type="text" name="nome" value="<?= $nome_digitado ?>" required><br>
+            <input type="text" name="nome"  style="font-family: 'Poppins', sans-serif;" value="<?= $nome_digitado ?>" required><br>
 
             <label class="amiko-semibold">Password:</label>
-            <input type="password" name="password" required><br>
+            <input type="password" name="password" class="amiko-semibold" required><br>
 
             <button type="submit">Entrar</button>
             <br>
-            <a href="recuperarpasse.php" class="amiko-semibold">Esqueceu-se da palavra-passe?</a><br><br>
+            <p class="amiko-semibold"><a href="recuperarpasse.php">Esqueceu-se da palavra-passe?</a><br><br></p>
             <p class="amiko-semibold">Ainda não tem conta? <a href="registar.php">Registar</a></p>
-            <p><a href="../index/index.php">Voltar</a></p>
+            
         </form>
     </div>
 </div>

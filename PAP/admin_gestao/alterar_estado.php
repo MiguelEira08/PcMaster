@@ -64,13 +64,17 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     <link rel="stylesheet" href="../css/admin_criar.css">
 </head>
 <body>
+        <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
+
 
 <div class="bg">
  <div class="overlay"></div>
  <div class="content">
 
   <form method="POST">
-    <h2>Alterar Estado da Conta</h2>
+    <h1>Alterar Estado da Conta</h1>
 
     <?php if ($erro): ?>
         <p class="error-message"><?= htmlspecialchars($erro) ?></p>
@@ -84,7 +88,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
              style="width:120px; height:120px; border-radius:50%; object-fit:cover; border:2px solid #fff;">
         <br>
 
-        <p style="font-size:18px; font-weight:bold;"><?= htmlspecialchars($utilizador['nome']) ?></p>
+        <p style="font-size:18px; font-weight:bold; color:black;"><?= htmlspecialchars($utilizador['nome']) ?></p>
         <br>
         <label>Estado atual:</label>
         <p style="font-size:18px;">
@@ -99,9 +103,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
         </div>
 
         <br>
-        <div align="center">
-            <button type="button" class="botao2" onclick="window.location.href='../admin/bloqueios.php';">Voltar</button>
-        </div>
+
 
     <?php endif; ?>
 

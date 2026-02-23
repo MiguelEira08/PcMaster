@@ -15,6 +15,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
+        <a href="../comprar/loja.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
   <div class="bg">
     <div class="loja-container">
     <div class="overlay"></div>
@@ -90,9 +93,7 @@
         </ul>
         <br>
     <div class="caixa-container">
-    <div class="botao-link"  onclick="window.location.href='./loja.php';">
-          Voltar atrás
-    </div>
+ 
       </aside>
 
       <main class="content" id="content">

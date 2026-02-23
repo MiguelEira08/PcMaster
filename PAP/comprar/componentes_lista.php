@@ -1,8 +1,5 @@
 <?php
-session_start();
-$_SESSION['voltar_inteligente'] = 'loja.php';
 
-include_once __DIR__ . '/../botao_voltar.php';
 include_once '../db.php';
 
 $tipoSelecionado = isset($_GET['tipo']) ? strtolower(trim($_GET['tipo'])) : '';

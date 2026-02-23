@@ -20,15 +20,18 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
 </head>
 
 <body>
+                   <a href="../admin/admin_dashboard.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
     <div class="overlay"></div>
     <br><br><br>
 
     <div class="content">
-        <h2>Gestão do Menu</h2>
+        <h1>Gestão do Menu</h1>
 
         <a href="../admin_gestao/adicionar_menu.php" class="btn criar" style="margin-left:10px;">
-            Adicionar Item ao Menu
+            Adicionar Menu
         </a>
 
         <div class="table-container">
@@ -62,7 +65,7 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
 
                         echo '<td class="acoes">';
                         echo '  <a href="../admin_gestao/editar_menu.php?id=' . $row['id_menu'] . '" class="btn editar">Editar</a>';
-                        echo '  <button class="btn btn-remover" data-id="' . $row['id_menu'] . '">Apagar</button>';
+                        echo '  <a href="#" class="btn remover btn-remover" data-id="' . $row['id_menu'] . '">Apagar</a>';
                         echo '</td>';
 
                         echo '</tr>';
@@ -73,13 +76,10 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
                 ?>
                 </tbody>
             </table>
-
-            <center>
-                <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-top:15px;">
-                    Voltar à Dashboard
-                </a>
-            </center>
+           
         </div>
+
+      
     </div>
 </div>
 

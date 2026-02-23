@@ -139,29 +139,29 @@ exit();
     <div class="overlay">
         <center>
         <form method="POST" enctype="multipart/form-data">
-            <h2>Registar</h2>
-
+            <h1 class="amiko-semibold"  style="color: black;">Registar</h1>
+<br>
             <?php if ($erro): ?>
                 <p style="color:red"><?= htmlspecialchars($erro) ?></p>
             <?php endif; ?>
 
-            <label>Nome de utilizador:</label>
-            <input type="text" name="username" required>
+            <label class="amiko-semibold">Nome de utilizador:</label>
+            <input type="text" name="username" style="font-family: 'Poppins', sans-serif;" required><br>
 
-            <label>Email:</label>
-            <input type="email" name="email" required>
+            <label class="amiko-semibold">Email:</label>
+            <input type="email" name="email" style="font-family: 'Poppins', sans-serif;" required><br>
 
-            <label>Telefone:</label>
-            <input type="text" name="telefone" pattern="\d{9}" maxlength="9" required>
+            <label class="amiko-semibold">Telefone:</label>
+            <input type="text" name="telefone"  style="font-family: 'Poppins', sans-serif;"pattern="\d{9}" maxlength="9" required><br>
 
-            <label>Foto de perfil:</label>
-            <input type="file" name="foto" accept="image/*">
+            <label class="amiko-semibold">Foto de perfil:</label>
+            <input type="file" name="foto" accept="image/*" class="amiko-semibold"><br>
 
-            <label>Password:</label>
-            <input type="password" name="password" required minlength="6">
+            <label class="amiko-semibold">Password:</label>
+            <input type="password" name="password" required minlength="6"><br>
 
-            <label>Confirmar Password:</label>
-            <input type="password" name="confirm_password" required minlength="6">
+            <label class="amiko-semibold">Confirmar Password:</label>
+            <input type="password" name="confirm_password" required minlength="6"><br>
             <br>
             <button type="submit">Registar</button>
             <p>Já tem conta? <a href="login.php">Iniciar Sessão</a></p>

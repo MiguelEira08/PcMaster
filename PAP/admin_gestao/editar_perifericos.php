@@ -105,12 +105,16 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
   <link rel="stylesheet" href="../css/admin_criar.css">
 </head>
 <body>
+        <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
+
 <div class="bg">
   <div class="overlay"></div>
   <div class="content">
     <form method="POST" enctype="multipart/form-data">
-        <h2>Editar Periférico</h2>
-
+        <h1>Editar Periférico</h1>
+<br>
         <?php if ($erro): ?>
             <p class="error-message"><?= htmlspecialchars($erro) ?></p>
         <?php endif; ?>
@@ -118,10 +122,10 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
         <?php if (isset($periferico)): ?>
             <label>Nome:</label>
             <input type="text" name="nome" value="<?= htmlspecialchars($periferico['nome']) ?>" required>
-
+<br><br>
             <label>Preço (€):</label>
             <input type="number" step="0.01" name="preco" value="<?= htmlspecialchars($periferico['preco']) ?>" required>
-
+<br><br>
             <label>Descrição:</label>
             <textarea 
                 name="descricao" 
@@ -129,46 +133,47 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
                 style="resize: none; width: 100%; height: 120px; font-family: inherit; font-size: 1rem; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"
                 required
             ><?= htmlspecialchars($periferico['descricao']) ?></textarea>
-
+<br><br>
             <label>Stock:</label>
             <input type="number" name="stock" value="<?= htmlspecialchars($periferico['stock']) ?>" required>
-
+<br><br>
             <label>Marca:</label>
             <select name="marca" required>
               <?php foreach ($marcas as $m): ?>
                 <option value="<?= $m ?>" <?= ($periferico['marca'] === $m ? 'selected' : '') ?>><?= $m ?></option>
               <?php endforeach; ?>
             </select>
-
+<br><br>
             <label>Tipo:</label>
             <select name="tipo" required>
               <?php foreach ($tipos as $t): ?>
                 <option value="<?= $t ?>" <?= ($periferico['tipo'] === $t ? 'selected' : '') ?>><?= $t ?></option>
               <?php endforeach; ?>
             </select>
+<br><br>
             <label>Desconto (%)</label>
             <input type="number" name="desconto" step="0.01" min="0" max="100"
             value="<?= htmlspecialchars($periferico['desconto']) ?>">
-
+<br><br>
             <label>Início do desconto</label>
             <input type="datetime-local" name="tempoinicio_desconto"
             value="<?= $periferico['tempoinicio_desconto'] ? date('Y-m-d\TH:i', strtotime($periferico['tempoinicio_desconto'])) : '' ?>">
-
+<br><br>
             <label>Fim do desconto</label>
             <input type="datetime-local" name="tempofim_desconto"
             value="<?= $periferico['tempofim_desconto'] ? date('Y-m-d\TH:i', strtotime($periferico['tempofim_desconto'])) : '' ?>">
-
+<br><br>
             <center>
               <label>Imagem atual:</label><br>
               <img src="../imagens/<?= htmlspecialchars($periferico['caminho_arquivo']) ?>" alt="Atual" style="width: 100%; max-width: 200px; margin-bottom: 12px; border-radius: 8px;">
             </center>
-
+<br><br>
             <label>Alterar imagem:</label>
             <input type="file" name="imagem" accept="image/*">
             <br><br>
            <div align="center"><button type="submit" class="botao">Guardar alterações</button></div> 
-            <br>
-        <div align="center"><button type="button" class="botao2" onclick="window.location.href='../admin/admin_perifericos.php';">Voltar</button></div>
+
+       
                 <?php endif; ?>
     </form>
   </div>

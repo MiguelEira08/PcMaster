@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $mail->Subject = 'Credenciais atualizadas';
 
                     $body = "<h3>Olá, $nome!</h3>
-                        <p>A sua conta foi atualizada com sucesso. Voltando em 1 segundo ...</p>
+                        <p>A sua conta foi atualizada com sucesso.</p>
                         <ul>
                             <li><strong>Email:</strong> $email</li>";
                     if ($senhaEnviada !== '') {

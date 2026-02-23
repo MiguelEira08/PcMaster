@@ -106,12 +106,16 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
   <link rel="stylesheet" href="../css/admin_criar.css">
 </head>
 <body>
+        <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
+
 <div class="bg">
   <div class="overlay"></div>
   <div class="content">
     <form method="POST" enctype="multipart/form-data">
-        <h2>Editar Componente</h2>
-
+        <h1>Editar Componente</h1>
+<br>
         <?php if ($erro): ?>
             <p class="error-message"><?= htmlspecialchars($erro) ?></p>
         <?php elseif ($sucesso): ?>
@@ -119,13 +123,13 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
         <?php endif; ?>
 
         <?php if (isset($componente)): ?>
-            <label>Nome:</label>
+            <label>Nome</label>
             <input type="text" name="nome" value="<?= htmlspecialchars($componente['nome']) ?>" required>
-
-            <label>Preço (€):</label>
+<br><br>  
+            <label>Preço (€)</label>
             <input type="number" step="0.01" name="preco" value="<?= htmlspecialchars($componente['preco']) ?>" required>
-
-            <label>Descrição:</label>
+<br><br>  
+            <label>Descrição</label>
             <textarea 
                 name="descricao" 
                 id="descricao"
@@ -134,45 +138,44 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
                 style="resize: none; width: 100%; height: 120px; font-family: inherit; font-size: 1rem; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"
                 required
             ><?= htmlspecialchars($componente['descricao']) ?></textarea>
-
-            <label>Stock:</label>
+<br><br>  
+            <label>Stock</label>
             <input type="number" name="stock" value="<?= htmlspecialchars($componente['stock']) ?>" required>
-
-            <label>Marca:</label>
+<br><br>  
+            <label>Marca</label>
             <select name="marca" required>
               <?php foreach ($marcas as $m): ?>
                 <option value="<?= $m ?>" <?= ($componente['marca'] === $m ? 'selected' : '') ?>><?= $m ?></option>
               <?php endforeach; ?>
             </select>
-
-            <label>Tipo:</label>
+<br><br>  
+            <label>Tipo</label>
             <select name="tipo" required>
               <?php foreach ($tipos as $t): ?>
                 <option value="<?= $t ?>" <?= ($componente['tipo'] === $t ? 'selected' : '') ?>><?= ucfirst($t) ?></option>
               <?php endforeach; ?>
             </select>
+<br><br>  
             <label>Desconto (%)</label>
 <input type="number" name="desconto" step="0.01" min="0" max="100"
 value="<?= htmlspecialchars($componente['desconto']) ?>">
-
+<br><br>  
 <label>Início do desconto</label>
 <input type="datetime-local" name="tempoinicio_desconto"
 value="<?= $componente['tempoinicio_desconto'] ? date('Y-m-d\TH:i', strtotime($componente['tempoinicio_desconto'])) : '' ?>">
-
+<br><br>  
 <label>Fim do desconto</label>
 <input type="datetime-local" name="tempofim_desconto"
 value="<?= $componente['tempofim_desconto'] ? date('Y-m-d\TH:i', strtotime($componente['tempofim_desconto'])) : '' ?>">
 
             <center>
-            <label>Imagem atual:</label><br>
+            <label>Imagem atual</label><br>
             <img src="../imagens/<?= htmlspecialchars($componente['caminho_arquivo']) ?>" alt="Atual" style="width: 100%; max-width: 200px; margin-bottom: 12px; border-radius: 8px;">
             </center>
-            <label>Alterar imagem:</label>
+            <label>Alterar imagem</label>
             <input type="file" name="imagem" accept="image/*">
             <br><br>
            <div align="center"><button type="submit" class="botao">Guardar alterações</button></div> 
-            <br>
-        <div align="center"><button type="button" class="botao2" onclick="window.location.href='../admin/admin_componentes.php';">Voltar</button></div>
         <?php endif; ?>
     </form>
   </div>

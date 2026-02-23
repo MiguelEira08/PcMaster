@@ -157,18 +157,20 @@ a:-webkit-any-link {
 }
 
 .botao-visualizar {
+  background: rgba(255, 255, 255, 0.5);
+backdrop-filter: blur(1px);
   margin-top: auto;
   width: 200px;
   height: 45px;
   color: black;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.0rem;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  border: 1px solid #ffffff;
+  border: 1px ;
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
@@ -177,7 +179,7 @@ a:-webkit-any-link {
 .botao-visualizar:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: white;
+  color: chocolate;
 }
 
 
@@ -192,9 +194,10 @@ a:-webkit-any-link {
 }
 
 .produto-card {
-  flex: 0 1 320px;  /* aumentei para 320px */
-  background-color: #fff;
-  border: 2px solid #333;
+  flex: 0 1 320px;
+background: rgba(255, 255, 255, 0.5);
+backdrop-filter: blur(1px); 
+  border: 1px solid #5f5f5f;
   border-radius: 15px;
   padding: 15px;
   text-align: center;
@@ -206,59 +209,43 @@ a:-webkit-any-link {
   transform: scale(1.03);
 }
 
-
-.comparacao-box {
-  flex-basis: 100%;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 10px;
-  border-radius: 12px;
-  text-align: center;
-  margin-bottom: 30px;
-  grid-column:1 / -1;                
-  width: 10px;                       
-  max-width:100%;                   
-  justify-self:center;
-  margin: 20px auto;
- 
-}
-
-.comparar-btn {
-  margin-top: 12px;
-  background: #ff0000;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
 .descricao-produto {
   margin-top: 10px;
   background: #f8f8f8;
   padding: 10px;
   border-radius: 8px;
 }
-.finalizar-btn {
 
-  background-color: #4CAF50;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  font-size: 18px;
-  cursor: pointer;
- margin-right: 15px;
-  transition: background-color 0.3s ease;
-  margin-top: 20px;
-}
-
-.finalizar-btn:hover {
-  background-color: #45a049;
-}
 .total-geral{
   text-align: center;
   color: white;
   font-size: 1.5em;
   margin-right: 20px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
+}
+.voltar-fixo {
+  width: 200px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.5);
+  color: rgb(0, 0, 0);
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999; 
+  text-decoration: none;
+}
+.voltar-fixo:hover {
+  transform: scale(1.1);
+  background-color: burlywood;
+  color: chocolate;
 }

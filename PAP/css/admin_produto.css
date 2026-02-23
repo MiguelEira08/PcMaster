@@ -6,7 +6,7 @@
 }
 
 h1 {
-  margin-top: 250px;
+  margin-top: auto;
   color: white;
 }
 
@@ -107,41 +107,9 @@ h2 {
     color: #333;
 }
 
-.form-filtros {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 25px;
-    align-items: center;
-    flex-wrap: wrap;
-}
 
-.form-filtros label {
-    font-weight: bold;
-    color: #333;
-}
 
-.form-filtros select {
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    min-width: 180px;
-}
-
-.form-filtros button {
-    padding: 8px 16px;
-    background-color: rgb(28, 18, 175);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.form-filtros button:hover {
-    background-color: rgb(28, 18, 175);
-}
-
-.btn {
+.btn.criar {
   margin-top: auto;
   width: 200px;
   height: 45px;
@@ -153,25 +121,7 @@ h2 {
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  border: 1px solid #ffffff;
-  transition: transform 0.2s ease, background-color 0.3s ease;
-  cursor: pointer;
-  text-align: center;
-}
-
-.btn.criar {
-    margin-top: auto;
-  width: 200px;
-  height: 45px;
-  color: black;
-  font-family: 'Poppins', sans-serif;
-  font-weight: bold;
-  font-size: 1.0rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 12px;
-  border: 1px solid #ffffff;
+  border: 1px solid #5f5f5f;
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
@@ -179,9 +129,30 @@ h2 {
 .btn.criar:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: white;
+  color: chocolate;
+}
+.btn.remover {
+    width: 200px;
+    height: 30px;
+    color: black;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 1.0rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    border: 1px solid #5f5f5f;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    cursor: pointer;
+    text-align: center;
 }
 
+.btn.remover:hover {
+    transform: scale(1.1);
+    background-color: burlywood;
+    color: chocolate;
+}
 .btn.editar {
 
   width: 200px;
@@ -194,43 +165,22 @@ h2 {
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  border: 1px solid #ffffff;
+  border: 1px solid #5f5f5f;
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
-    
+ 
 }
 .btn.editar:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: white;
-}
-
-.btn.remover {
-  width: 200px;
-  height: 30px;
-  color: black;
-  font-family: 'Poppins', sans-serif;
-  font-weight: bold;
-  font-size: 1.0rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 12px;
-  border: 1px solid #ffffff;
-  transition: transform 0.2s ease, background-color 0.3s ease;
-  cursor: pointer;
-  text-align: center;
-}
-.btn.remover:hover {
-  transform: scale(1.1);
-  background-color: burlywood;
-  color: white;
+  color: chocolate;
 }
 
 .btn.voltar {
 margin-top: auto;
-  width: 200px;
+  width: auto;
+  min-width: 60px;
   height: 45px;
   color: black;
   font-family: 'Poppins', sans-serif;
@@ -240,7 +190,7 @@ margin-top: auto;
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  border: 1px solid #ffffff;
+  border: 1px solid #5f5f5f;
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
@@ -248,11 +198,11 @@ margin-top: auto;
 .btn.voltar:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: white;
+  color: chocolate;
 }
 .btn.responder {
 margin-top: auto;
-  width: 200px;
+  width: auto;
   height: 45px;
   color: black;
   font-family: 'Poppins', sans-serif;
@@ -262,7 +212,7 @@ margin-top: auto;
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  border: 1px solid #ffffff;
+  border: 1px solid #5f5f5f;
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
@@ -270,12 +220,74 @@ margin-top: auto;
 .btn.responder:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: white;
+  color: chocolate;
 }
-.acoes {
+.btn.ver {
+    width: 60px;
+    height: 40px;
+    color: black;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 1.0rem;
+    display: flex;
     justify-content: center;
-    gap: 6px;
+    align-items: center;
+    border-radius: 12px;
+    border: 1px solid #5f5f5f;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    cursor: pointer;
+    text-align: center;
 }
+.btn.ver:hover {
+    transform: scale(1.1);
+    background-color: burlywood;
+    color: chocolate;
+}
+.voltar-fixo {
+  width: 200px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.5);
+  color: rgb(0, 0, 0);
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999; 
+  text-decoration: none;
+}
+.voltar-fixo:hover {
+  transform: scale(1.1);
+  background-color: burlywood;
+  color: chocolate;
+}
+
+.acoes {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;     
+    justify-content: center;  
+    gap: 5px;                 
+}
+
+ /* Por causa dos botoes estarem colados um ao outro */
+.acoes .btn {
+    width: auto;
+    min-width: 120px;
+    padding: 6px 16px;
+    height: auto;
+    font-size: 14px;
+    border-radius: 20px; /* deixa mais moderno */
+}
+
 
 /* ========================= */
 /* DATA TABLE CUSTOM STYLE   */
@@ -302,7 +314,7 @@ table.dataTable thead {
 }
 
 table.dataTable thead th {
-    color: white;
+    color: rgb(241, 16, 16);
     padding: 12px;
     text-align: center;
     font-weight: 600;
@@ -310,18 +322,29 @@ table.dataTable thead th {
 
 /* Corpo */
 table.dataTable tbody td {
-    padding: 10px;
+    padding: 12px 10px;
     text-align: center;
-    border-bottom: 1px solid #eee;
+    vertical-align: middle;   
+}
+
+table.dataTable tbody tr {
+    border-bottom: 1px solid burlywood;       
 }
 
 /* Hover nas linhas */
 table.dataTable tbody tr:hover {
-    background-color: #f5f5ff;
+    background-color: #999999;
     transition: 0.2s ease;
 }
+table.dataTable td.acoes {
+    min-width: 240px;
+    padding-left: 20px;
+    padding-right: 20px;
 
-
+    
+    justify-content: center;
+    align-items: center;         /* 👈 centraliza verticalmente */
+}
 /* Input de pesquisa */
 .dataTables_wrapper .dataTables_filter input {
     border-radius: 8px;
@@ -330,7 +353,7 @@ table.dataTable tbody tr:hover {
     margin-left: 8px;
 }
 
-/* Select (mostrar X entradas) */
+
 .dataTables_wrapper .dataTables_length select {
     border-radius: 8px;
     padding: 4px 8px;
@@ -346,12 +369,117 @@ table.dataTable tbody tr:hover {
     border: none !important;
 }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    background: #1c12af !important;
-    color: white !important;
-}
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     background: burlywood !important;
     color: white !important;
 }
+/* Tabela de itens DataTable */
+#tabela_itens.dataTable thead th {
+  font-size: 17px;
+    color: rgb(0, 0, 0);
+    background-color: burlywood;
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Corpo da tabela de itens */
+#tabela_itens.dataTable tbody td {
+  font-size: 17px;
+    text-align: center;
+    padding: 12px 10px;
+}
+/* Tabela de itens DataTable */
+#tabela_compra.dataTable thead th {
+  font-size: 17px;
+    color: rgb(0, 0, 0);
+    background-color: burlywood;
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Corpo da tabela de compra */
+#tabela_compra.dataTable tbody td {
+  font-size: 17px;
+    text-align: center;
+    padding: 12px 10px;
+}
+/* Reset por causa do bug do botao remover */
+button.btn {
+    background-color: transparent;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.btn.editar,
+.btn.remover {
+    background-color: transparent;
+    border: 1px solid #5f5f5f;
+}
+
+.btn.editar:hover,
+.btn.remover:hover {
+    background-color: burlywood;
+    color: chocolate;
+}
+.acoes-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+}
+.estado-form {
+    position: relative;
+    display: inline-block;
+}
+/* ========================= */
+/* ESTILO PARA SELECT BOX    */
+/* ========================= */
+.estado-form select {
+    appearance: none;           /* Remove estilo padrão do browser */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 6px 12px;
+     padding-right: 30px; /* espaço para ícone */
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    background-color: burlywood;   /* Cor de fundo do select */
+    border: 2px solid black;   /* Borda chocolate */
+    border-radius: 12px;           /* Borda arredondada */
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Alteração visual quando o select está ativo/focado */
+.estado-form select:focus {
+    outline: none;
+    border-color: darkorange;
+    box-shadow: 0 0 5px rgba(255, 165, 0, 0.5);
+}
+
+/* Hover sobre o select */
+.estado-form select:hover {
+    background-color: #e0b67f; /* ligeiro clareamento do burlywood */
+}
+
+/* Opções dentro do select */
+.estado-form select option {
+    padding: 6px;
+    background-color:burlywood;  /* fundo claro para as opções */
+    color: black;
+}
+.estado-form::after {
+    content: "▼";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: chocolate;
+    font-size: 0.8rem;
+}
+

@@ -20,12 +20,15 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.css" />
 </head>
 <body>
+        <a href="../admin/admin_utilizadores.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
  <div class="overlay"></div>
   <br><br><br>
   <div class="content">
 
-    <h2>Estado das Contas dos Utilizadores</h2>
+    <h1>Estado das Contas dos Utilizadores</h1>
 
 <div class="table-container">
    <table id="tabela" class="datatable">
@@ -43,19 +46,7 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     </thead>
     <tbody>
     <?php
-    $result = mysqli_query($conn, "
-        SELECT 
-            u.id,
-            u.nome,
-            u.caminho_arquivo,
-            us.tentativas,
-            us.bloqueado,
-            us.ultimo_login,
-            us.ultimo_logout
-        FROM utilizador_seguranca us
-        INNER JOIN utilizadores u ON u.id = us.utilizador_id
-        ORDER BY u.id DESC
-    ");
+    $result = mysqli_query($conn, " SELECT u.id, u.nome, u.caminho_arquivo, us.tentativas, us.bloqueado, us.ultimo_login, us.ultimo_logout FROM utilizador_seguranca us INNER JOIN utilizadores u ON u.id = us.utilizador_id ORDER BY u.id DESC");
 
     if ($result && mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -78,7 +69,7 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
             echo "<td>{$row['ultimo_logout']}</td>";
 
             echo '<td class="acoes">';
-            echo ' <a href="../admin_gestao/alterar_estado.php?id=' . $row['id'] . '" class="btn editar">Editar</a>';
+            echo ' <a href="../admin_gestao/alterar_estado.php?id=' . $row['id'] . '" class="btn editar" style="margin: 10px 0;">Editar</a>';
             echo '</td>';
             echo '</tr>';
         }
@@ -89,11 +80,8 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     </tbody>
   </table>
 
-        <center>
-            <a href="../admin/admin_utilizadores.php" class="btn voltar" style="margin-top:15px;">Voltar atrás</a>
-        </center>
 
-</div>
+</div
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/2.3.6/js/dataTables.js"></script>

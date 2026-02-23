@@ -17,7 +17,7 @@ include_once __DIR__ . '/../cabecindex.php';
 <link href="https://fonts.googleapis.com/css2?family=Amiko:wght@600&display=swap" rel="stylesheet">
 </head>
 <body>  
-    <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    <a href="../index/index.php" class="botao-voltar voltar-fixo">
     ← Voltar
 </a>
     <div class= "bg">

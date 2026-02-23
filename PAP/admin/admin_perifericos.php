@@ -28,12 +28,15 @@ $queryFiltros = http_build_query([
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.css" />
 </head>
 <body>
+                   <a href="../admin/admin_dashboard.php" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
     <div class="overlay"></div>
     <br><br><br>
     <div class="content">
-        <h2>Gestão de Periféricos</h2>
-            <a href="../admin_gestao/adicionar_perifericos.php" class="btn criar" style="margin-left:10px;">Adicionar Periféricos</a>
+        <h1>Gestão de Periféricos</h1>
+            <a href="../admin_gestao/adicionar_perifericos.php" class="btn criar">Adicionar Periféricos</a>
 
         <div class="table-container">
         <table id="tabela" class="datatable">
@@ -108,9 +111,7 @@ $queryFiltros = http_build_query([
                 ?>
                 </tbody>
             </table>
-        <center>
-            <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-top:15px;">Voltar á Dashboard</a>
-        </center>
+      
         </div>
     </div>
 </div>
