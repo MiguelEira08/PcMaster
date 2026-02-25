@@ -116,32 +116,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $mail->Host = 'smtp.gmail.com';
                     $mail->SMTPAuth = true;
                     $mail->Username = 'pcmastergeral@gmail.com';
-                    $mail->Password = 'mjsv oxar shbz dfzp';
+                    $mail->Password = 'mjsv oxar shbz dfzp'; // ⚠️ ATUALIZA A TUA PASSWORD AQUI!
                     $mail->SMTPSecure = 'tls';
                     $mail->Port = 587;
 
                     $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
                     $mail->addAddress($email, $nome);
                     $mail->isHTML(true);
-                    $mail->Subject = 'Credenciais atualizadas';
+                    $mail->Subject = 'Gestão da Conta - PcMaster';
 
-                    $body = "<h3>Olá, $nome!</h3>
-                        <p>A sua conta foi atualizada com sucesso.</p>
-                        <ul>
-                            <li><strong>Email:</strong> $email</li>";
+                    $body = "
+                    <div style='font-family: Arial, Helvetica, sans-serif; background-color: #f4f6f9; padding: 30px 15px; color: #333333;'>
+                        <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
+                            
+                            <div style='background-color: burlywood; padding: 25px; text-align: center;'>
+                                <h1 style='color: #ffffff; margin: 0; font-size: 24px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);'>Conta Atualizada</h1>
+                            </div>
+                            
+                            <div style='padding: 30px;'>
+                                <p style='font-size: 16px; margin-top: 0;'>Olá, <strong>{$nome}</strong>,</p>
+                                <p style='font-size: 15px; line-height: 1.6; color: #555555;'>Informamos que os dados da sua conta na plataforma PcMaster foram atualizados com sucesso.</p>
+                                
+                                <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Detalhes da Conta</h3>
+                                
+                                <div style='background-color: #f8f9fa; border-left: 4px solid burlywood; padding: 15px; border-radius: 0 4px 4px 0; margin-bottom: 30px;'>
+                                    <p style='margin: 0 0 10px 0; font-size: 14px; color: #333333;'><strong>Email associado:</strong> {$email}</p>";
+                                    
                     if ($senhaEnviada !== '') {
-                        $body .= "<li><strong>Nova Password:</strong> $senhaEnviada</li>";
+                        $body .= "<p style='margin: 0; font-size: 14px; color: #333333;'><strong>Nova Password:</strong> {$senhaEnviada}</p>";
+                    } else {
+                        $body .= "<p style='margin: 0; font-size: 14px; color: #888888;'><strong>Password:</strong> <em>(Não foi alterada)</em></p>";
                     }
-                    $body .= "</ul><p>PcMaster</p>";
+
+                    $body .= "      </div>
+
+                                <div style='background-color: #fff3cd; border: 1px solid #ffeeba; padding: 20px; border-radius: 6px;'>
+                                    <p style='margin: 0 0 10px 0; font-size: 15px; font-weight: bold; color: #856404;'>Não foi você a fazer esta alteração?</p>
+                                    <p style='margin: 0; font-size: 14px; line-height: 1.5; color: #856404;'>Se não reconhece esta atividade, a sua conta pode estar em risco. Por favor, aceda ao site e redefina a sua password ou responda a este email para contactar o suporte imediatamente.</p>
+                                </div>
+                            </div>
+                            
+                            <div style='background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;'>
+                                <p style='margin: 0; font-size: 14px; color: #888888;'>Sistema de Segurança - <strong style='color: burlywood;'>PcMaster</strong></p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    ";
 
                     $mail->Body = $body;
                     $mail->send();
                     $redir = true;
-                } catch (Exception $e) {}
-            } else {
-                $erro = 'Erro ao atualizar dados!';
-                $stmt->close();
-            }
+                } catch (Exception $e) {
+                    error_log("Erro ao enviar email de atualização de dados: " . $mail->ErrorInfo);
+                }
+        }
         }
     }
 }

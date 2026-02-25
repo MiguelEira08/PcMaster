@@ -59,24 +59,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'pcmastergeral@gmail.com';
-                $mail->Password   = 'mjsv oxar shbz dfzp';
+                $mail->Password   = 'mjsv oxar shbz dfzp'; // ⚠️ ATUALIZA AQUI A TUA PASSWORD
                 $mail->SMTPSecure = 'tls';
                 $mail->Port       = 587;
 
                 $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
-                $mail->addAddress('migueleira08@gmail.com', 'Miguel');
-                $mail->addAddress('al.919783@aeaav.pt', 'Gustavo');
+                $mail->addAddress('migueleira08@gmail.com', 'Administrador');
+                $mail->addAddress('gustavofigueiredo.a.f@gmail.com', 'Administrador'); 
                 $mail->isHTML(true);
-                $mail->Subject = "Novo Feedback Recebido";
+                $mail->Subject = "Feedback Recebido - PcMaster";
+
+                // Proteção contra quebras no HTML por texto inserido pelo utilizador
+                $mensagem_segura = nl2br(htmlspecialchars($mensagem));
+                $origem_segura = htmlspecialchars($origem ?: 'Não especificado');
+                $motivo_seguro = htmlspecialchars($motivo);
 
                 $mail->Body = "
-                <h2>Olá, Administrador!</h2>
-                <p>Recebemos um novo feedback de um utilizador. Abaixo estão os detalhes:</p>
-                    <p><strong>Nome do utilizador:</strong> {$nomeUtilizador}</p>
-                    <p><strong>Origem do erro:</strong> " . ($origem ?: 'Não especificado') . "</p>
-                    <p><strong>Motivo do erro:</strong> {$motivo}</p>
-                    <p><strong>Mensagem do cliente:</strong> {$mensagem}</p>
-                    <p><strong>Data do feedback:</strong> {$data_envio}</p>
+                <div style='font-family: Arial, Helvetica, sans-serif; background-color: #f4f6f9; padding: 30px 15px; color: #333333;'>
+                    <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
+                        
+                        <div style='background-color: burlywood; padding: 25px; text-align: center;'>
+                            <h1 style='color: #ffffff; margin: 0; font-size: 24px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);'>Novo Feedback!</h1>
+                        </div>
+                        
+                        <div style='padding: 30px;'>
+                            <p style='font-size: 15px; line-height: 1.6; color: #555555;'>Novo feedback recebido.</p>
+                            
+                            <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Detalhes do Utilizador</h3>
+                            
+                            <div style='background-color: #f8f9fa; border-left: 4px solid burlywood; padding: 15px; border-radius: 0 4px 4px 0; margin-bottom: 25px;'>
+                                <p style='margin: 0 0 10px 0; font-size: 14px; color: #333333;'><strong>Nome:</strong> {$nomeUtilizador}</p>
+                                <p style='margin: 0; font-size: 14px; color: #333333;'><strong>Data de Envio:</strong> {$data_envio}</p>
+                            </div>
+
+                            <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Contexto do Feedback</h3>
+                            
+                            <div style='background-color: #f8f9fa; border-left: 4px solid burlywood; padding: 15px; border-radius: 0 4px 4px 0; margin-bottom: 25px;'>
+                                <p style='margin: 0 0 10px 0; font-size: 14px; color: #333333;'><strong>Origem do Erro/Página:</strong> <span style='background-color: #e9ecef; padding: 3px 8px; border-radius: 4px; font-size: 13px;'>{$origem_segura}</span></p>
+                                <p style='margin: 0; font-size: 14px; color: #333333;'><strong>Motivo:</strong> <strong style='color: #dc3545;'>{$motivo_seguro}</strong></p>
+                            </div>
+
+                            <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Mensagem do Cliente</h3>
+
+                            <div style='background-color: #eef5ff; border: 1px solid #cce0ff; padding: 20px; border-radius: 6px;'>
+                                <p style='margin: 0; font-size: 15px; line-height: 1.6; color: #004085;'>{$mensagem_segura}</p>
+                            </div>
+                        </div>
+                        
+                        <div style='background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;'>
+                            <p style='margin: 0; font-size: 14px; color: #888888;'>Sistema de Notificações de Feedback - <strong style='color: burlywood;'>PcMaster</strong></p>
+                        </div>
+                        
+                    </div>
+                </div>
                 ";
                 $mail->send();
                 $redir = true;

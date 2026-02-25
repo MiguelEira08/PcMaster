@@ -74,12 +74,12 @@ if (!empty($utilizador['caminho_arquivo'])) {
   <div class="caixa-container">
 
     <a href="pedido_agenda.php" class="caixa">
-      <img src="../imagens/agendamento.png" alt="imagem" class="caixa-imagem">
+      <img src="../imagens/agendar.png" alt="imagem" class="caixa-imagem">
       Pedido de Agendamento 
 </a>
 
     <a href="gerir_agendamento.php" class="caixa">
-      <img src="../imagens/agendamento.png" alt="imagem" class="caixa-imagem">
+      <img src="../imagens/gerir_agenda.png" alt="imagem" class="caixa-imagem">
       Ver Agendamento
     </a>
 

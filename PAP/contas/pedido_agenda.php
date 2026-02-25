@@ -65,29 +65,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'pcmastergeral@gmail.com'; 
-                $mail->Password   = 'mjsv oxar shbz dfzp'; 
+                $mail->Password   = 'mjsv oxar shbz dfzp'; // ⚠️ ATUALIZA A TUA PASSWORD AQUI
                 $mail->SMTPSecure = 'tls';
                 $mail->Port       = 587;
 
-                $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster Agendamentos');
-                $mail->addAddress('migueleira08@gmail.com', 'Miguel');
-                $mail->addAddress('al.919783@aeaav.pt', 'Gustavo');
+                $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
+                $mail->addAddress('migueleira08@gmail.com', 'Administrador');
+                $mail->addAddress('gustavofigueiredo.a.f@gmail.com', 'Administrador');
                 
                 $mail->isHTML(true);
-                $mail->Subject = 'Novo Agendamento - ' . mb_convert_case($tipo_servico, MB_CASE_TITLE, "UTF-8");
+                
+                $servico_formatado = mb_convert_case($tipo_servico, MB_CASE_TITLE, "UTF-8");
+                $mail->Subject = "Novo Agendamento: - PcMaster";
                 
                 // Formatação das horas e data para o e-mail
                 $data_formatada = date('d/m/Y', strtotime($data_agendamento));
                 $hora_i_formatada = date('H:i', strtotime($hora_inicio));
                 $hora_f_formatada = date('H:i', strtotime($hora_fim));
 
+                // Variáveis sanitizadas para segurança
+                $nome_seguro = htmlspecialchars($utilizador['nome']);
+                $email_seguro = htmlspecialchars($utilizador['email']);
+                $localidade_segura = htmlspecialchars($localidade);
+
                 $body = "
-                    <h3>Novo pedido de agendamento</h3>
-                    <p><strong>Utilizador:</strong> " . htmlspecialchars($utilizador['nome']) . " (" . htmlspecialchars($utilizador['email']) . ")</p>
-                    <p><strong>Serviço:</strong> " . mb_convert_case($tipo_servico, MB_CASE_TITLE, "UTF-8") . "</p>
-                    <p><strong>Data:</strong> {$data_formatada}</p>
-                    <p><strong>Horário:</strong> Das {$hora_i_formatada} às {$hora_f_formatada}</p>
-                    <p><strong>Localidade:</strong> " . htmlspecialchars($localidade) . "</p>
+                <div style='font-family: Arial, Helvetica, sans-serif; background-color: #f4f6f9; padding: 30px 15px; color: #333333;'>
+                    <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
+                        
+                        <div style='background-color: burlywood; padding: 25px; text-align: center;'>
+                            <h1 style='color: #ffffff; margin: 0; font-size: 24px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);'>Novo Agendamento!</h1>
+                        </div>
+                        
+                        <div style='padding: 30px;'>
+                            <p style='font-size: 15px; line-height: 1.6; color: #555555;'>Novo pedido de agendamento recebido.</p>
+                            
+                            <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Dados do Cliente</h3>
+                            <div style='background-color: #f8f9fa; border-left: 4px solid burlywood; padding: 15px; border-radius: 0 4px 4px 0; margin-bottom: 25px;'>
+                                <p style='margin: 0 0 10px 0; font-size: 14px; color: #333333;'><strong>Nome:</strong> {$nome_seguro}</p>
+                                <p style='margin: 0; font-size: 14px; color: #333333;'><strong>Email:</strong> <a href='mailto:{$email_seguro}' style='color: #0056b3; text-decoration: none;'>{$email_seguro}</a></p>
+                            </div>
+
+                            <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Detalhes do Serviço</h3>
+                            <div style='background-color: #f8f9fa; border-left: 4px solid burlywood; padding: 15px; border-radius: 0 4px 4px 0; margin-bottom: 25px;'>
+                                <p style='margin: 0 0 10px 0; font-size: 14px; color: #333333;'><strong>Tipo de Serviço:</strong> <span style='background-color: #e9ecef; padding: 3px 8px; border-radius: 4px; font-size: 13px; font-weight: bold;'>{$servico_formatado}</span></p>
+                                <p style='margin: 0; font-size: 14px; color: #333333;'><strong>Localidade:</strong> {$localidade_segura}</p>
+                            </div>
+
+                            <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Disponibilidade Sugerida</h3>
+                            <div style='background-color: #eef5ff; border: 1px solid #cce0ff; padding: 20px; border-radius: 6px;'>
+                                <p style='margin: 0 0 10px 0; font-size: 15px; color: #004085;'><strong>Data:</strong> {$data_formatada}</p>
+                                <p style='margin: 0; font-size: 15px; color: #004085;'><strong>Horário:</strong> Das {$hora_i_formatada} às {$hora_f_formatada}</p>
+                            </div>
+                        </div>
+                        
+                        <div style='background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;'>
+                            <p style='margin: 0; font-size: 14px; color: #888888;'>Sistema de Agendamentos - <strong style='color: burlywood;'>PcMaster</strong></p>
+                        </div>
+                        
+                    </div>
+                </div>
                 ";
 
                 $mail->Body = $body;

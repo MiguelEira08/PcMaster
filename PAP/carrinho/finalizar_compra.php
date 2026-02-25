@@ -74,7 +74,7 @@ if (isset($_POST['confirmar_compra'])) {
             ");
 
             $total = 0;
-            $listaProdutos = "<ul>";
+            $listaProdutos = "<ul style='padding-left: 20px; margin: 0;'>";
             foreach ($itens as $item) {
                 $tabela = ($item['tipo_produto'] === 'componente') ? 'componentes' : 'perifericos';
 
@@ -108,7 +108,7 @@ if (isset($_POST['confirmar_compra'])) {
 
                 $subtotal = $prod_info['preco'] * $item['quantidade'];
                 $total += $subtotal;
-                $listaProdutos .= "<li>{$prod_info['nome']} - {$item['quantidade']} x €" . number_format($prod_info['preco'], 2, ',', '.') . "</li>";
+                $listaProdutos .= "<li style='margin-bottom: 5px;'>{$prod_info['nome']} - <strong>{$item['quantidade']} unid.</strong> x €" . number_format($prod_info['preco'], 2, ',', '.') . "</li>";
             }
             $stmtItem->close();
             $listaProdutos .= "</ul>";
@@ -119,7 +119,6 @@ if (isset($_POST['confirmar_compra'])) {
             $stDel->close();
 
             $conn->commit();
-
 
             $stUser = $conn->prepare("SELECT nome, email FROM utilizadores WHERE id = ?");
             $stUser->bind_param("i", $id_utilizador);
@@ -137,40 +136,99 @@ if (isset($_POST['confirmar_compra'])) {
                 $mail->Host       = 'smtp.gmail.com';     
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'pcmastergeral@gmail.com'; 
-                $mail->Password   = 'mjsv oxar shbz dfzp';         
+                $mail->Password   = 'mjsv oxar shbz dfzp'; // ⚠️ ATUALIZA AQUI! E MUDA A TUA PASS DA CONTA GOOGLE.       
                 $mail->SMTPSecure = 'tls';
                 $mail->Port       = 587;
 
+                $total_formatado = number_format($total, 2, ',', '.');
+
+                // ==========================================
+                // 1. EMAIL PARA O CLIENTE
+                // ==========================================
                 $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
                 $mail->addAddress($cliente_email, $cliente_nome);
-
                 $mail->isHTML(true);
-                $mail->Subject = 'Compra Efetuada';
+                $mail->Subject = 'Compra Efetuada - PcMaster';
 
                 $mail->Body = "
-                    <h2>Olá, {$cliente_nome}!</h2>
-                    <p>Obrigado pela sua compra. Abaixo os detalhes:</p>
-                    <h4>Produtos:</h4>
-                    $listaProdutos
-                    <p><strong>Total:</strong> €" . number_format($total, 2, ',', '.') . "</p>
-                    <p><strong>Estado:</strong> Pendente</p>
-                    <p>Obrigado por comprar na PcMaster. \n Volte Sempre!</p>
+                <div style='font-family: Arial, Helvetica, sans-serif; background-color: #f4f6f9; padding: 30px 15px; color: #333333;'>
+                    <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
+                        
+                        <div style='background-color: burlywood; padding: 25px; text-align: center;'>
+                            <h1 style='color: #ffffff; margin: 0; font-size: 24px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);'>Equipa PcMaster</h1>
+                        </div>
+                        
+                        <div style='padding: 30px;'>
+                            <p style='font-size: 16px; margin-top: 0;'>Olá, <strong>{$cliente_nome}</strong>,</p>
+                            <p style='font-size: 15px; line-height: 1.6; color: #555555;'>Obrigado pela sua compra! A sua encomenda foi registada e está agora a ser processada pela nossa equipa.</p>
+                            
+                            <h3 align='center' style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Estado da Encomenda</h3>
+                            <div style='background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; border-radius: 6px; text-align: center; margin: 25px 0;'>
+                                <p style='margin: 0; font-size: 16px; color: #555555;'><strong style='font-size: 18px; text-transform: uppercase; color: #dc3545;'>Pendente</strong></p>
+                            </div>
+                            
+                            <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Resumo da Encomenda</h3>
+                            
+                            <div style='background-color: #f8f9fa; border-left: 4px solid burlywood; padding: 15px; border-radius: 0 4px 4px 0;'>
+                                <p style='margin: 0 0 10px 0; font-size: 14px; line-height: 1.5;'><strong>Produtos:</strong><br><br> {$listaProdutos}</p>
+                                <hr style='border: none; border-top: 1px solid #dddddd; margin: 15px 0;'>
+                                <p style='margin: 0; font-size: 16px;'><strong>Total Pago:</strong> <strong style='color: #333333;'>€ {$total_formatado}</strong></p>
+                            </div>
+                        </div>
+                        
+                        <div style='background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;'>
+                            <p style='margin: 0; font-size: 14px; color: #888888;'>Obrigado por comprar na <strong style='color: burlywood;'>PcMaster</strong>!<br>Volte sempre.</p>
+                        </div>
+                        
+                    </div>
+                </div>
                 ";
                 $mail->send();
 
-                $mail->CharSet = 'UTF-8';
                 $mail->clearAddresses();
-                $mail->addAddress('migueleira08@gmail.com', 'Miguel');
+                $mail->addAddress('migueleira08@gmail.com', 'Administrador');
+                $mail->addAddress('gustavofigueiredo.a.f@gmail.com', 'Administrador'); 
 
-                $mail->Subject = 'Compra Realizada';
+                $mail->Subject = 'Encomenda efetuada - PcMaster';
                 $mail->Body = "
-                    <h2>Nova encomenda recebida</h2>
-                    <p>Cliente: {$cliente_nome} ({$cliente_email})</p>
-                    <p><strong>Produtos:</strong></p>
-                    $listaProdutos
-                    <p><strong>Total:</strong> €" . number_format($total, 2, ',', '.') . "</p>
-                    <p><strong>Estado:</strong> Pendente</p>
-                    <p>Para mais informações acede ao site</p>
+                <div style='font-family: Arial, Helvetica, sans-serif; background-color: #f4f6f9; padding: 30px 15px; color: #333333;'>
+                    <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
+                        
+                        <div style='background-color: burlywood; padding: 25px; text-align: center;'>
+                            <h1 style='color: #ffffff; margin: 0; font-size: 24px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);'>Nova Encomenda!</h1>
+                        </div>
+                        
+                        <div style='padding: 30px;'>
+                            <p style='font-size: 15px; line-height: 1.6; color: #555555;'>Uma nova encomenda foi realizada.</p>
+                            
+                            <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Dados do Cliente</h3>
+                            <div style='background-color: #f8f9fa; border-left: 4px solid burlywood; padding: 15px; border-radius: 0 4px 4px 0; margin-bottom: 25px;'>
+                                <p style='margin: 0 0 10px 0; font-size: 14px; color: #333333;'><strong>Nome:</strong> {$cliente_nome}</p>
+                                <p style='margin: 0 0 10px 0; font-size: 14px; color: #333333;'><strong>Email:</strong> <a href='mailto:{$cliente_email}' style='color: #0056b3; text-decoration: none;'>{$cliente_email}</a></p>
+                                <p style='margin: 0; font-size: 14px; color: #333333;'><strong>Estado Atual:</strong> <span style='color: #dc3545; font-weight: bold;'>Pendente</span></p>
+                            </div>
+
+                            <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Dados de Envio</h3>
+                            <div style='background-color: #f8f9fa; border-left: 4px solid burlywood; padding: 15px; border-radius: 0 4px 4px 0; margin-bottom: 25px;'>
+                                <p style='margin: 0 0 10px 0; font-size: 14px; color: #333333;'><strong>Rua:</strong> {$rua}</p>
+                                <p style='margin: 0 0 10px 0; font-size: 14px; color: #333333;'><strong>Código Postal:</strong> {$codigo_postal}</p>
+                                <p style='margin: 0; font-size: 14px; color: #333333;'><strong>Distrito:</strong> {$distrito}</p>
+                            </div>
+
+                            <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Produtos Encomendados</h3>
+                            <div style='background-color: #eef5ff; border: 1px solid #cce0ff; padding: 20px; border-radius: 6px;'>
+                                <p style='margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #004085;'>{$listaProdutos}</p>
+                                <hr style='border: none; border-top: 1px solid #cce0ff; margin: 15px 0;'>
+                                <p style='margin: 0; font-size: 16px; color: #004085;'><strong>Total:</strong> <strong>€ {$total_formatado}</strong></p>
+                            </div>
+                        </div>
+                        
+                        <div style='background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;'>
+                            <p style='margin: 0; font-size: 14px; color: #888888;'><strong style='color: burlywood;'>PcMaster</strong></p>
+                        </div>
+                        
+                    </div>
+                </div>
                 ";
                 $mail->send();
 
