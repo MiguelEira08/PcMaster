@@ -28,35 +28,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($erros)) {
         $mail = new PHPMailer(true);
-
         try {
             $mail->CharSet = 'UTF-8';
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username   = 'pcmastergeral@gmail.com';
-            $mail->Password   = 'mjsv oxar shbz dfzp';
+            $mail->Password   = 'mjsv oxar shbz dfzp'; // ⚠️ POR FAVOR, ELIMINA A PASS ANTIGA DA TUA CONTA GOOGLE
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
             $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
             $mail->addAddress('migueleira08@gmail.com', 'Administrador');
-            $mail->addAddress('al.919786@aeaav.pt', 'Administrador');
-            $mail->addAddress('al.919783@aeaav.pt', 'Administrador');
             $mail->addAddress('gustavofigueiredo.a.f@gmail.com', 'Administrador');
             
-
             $mail->isHTML(true);
-            $mail->Subject = 'Suporte ao Cliente - Novo Pedido';
+            $mail->Subject = 'Suporte ao Cliente - PcMaster';
+
+            // Protege o texto da mensagem contra código malicioso e converte quebras de linha
+            $mensagem_segura = nl2br(htmlspecialchars($mensagem));
 
             $mail->Body = "
-            <p>O seguinte utilizador enviou um pedido de suporte:</p><br>
-                <p><strong>Nome do utilizador:</strong> {$nome}</p>
-                <p><strong>Email do utilizador:</strong> {$email}</p>
-                <p><strong>Motivo do contacto:</strong> {$motivo}</p>
-                <p><strong>Mensagem:</strong></p>
-                <p>{$mensagem}</p>
-                <p><strong>Data:</strong> {$data_envio}</p>
+            <div style='font-family: Arial, Helvetica, sans-serif; background-color: #f4f6f9; padding: 30px 15px; color: #333333;'>
+                <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
+                    
+                    <div style='background-color: burlywood; padding: 25px; text-align: center;'>
+                        <h1 style='color: #ffffff; margin: 0; font-size: 24px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);'>Suporte ao Cliente</h1>
+                    </div>
+                    
+                    <div style='padding: 30px;'>
+                        <p style='font-size: 15px; line-height: 1.6; color: #555555;'>Novo pedido de suporte do cliente recebido.</p>
+                        
+                        <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Detalhes do Cliente</h3>
+                        
+                        <div style='background-color: #f8f9fa; border-left: 4px solid burlywood; padding: 15px; border-radius: 0 4px 4px 0; margin-bottom: 25px;'>
+                            <p style='margin: 0 0 10px 0; font-size: 14px; color: #333333;'><strong>Nome:</strong> {$nome}</p>
+                            <p style='margin: 0 0 10px 0; font-size: 14px; color: #333333;'><strong>Email:</strong> <a href='mailto:{$email}' style='color: #0056b3; text-decoration: none;'>{$email}</a></p>
+                            <p style='margin: 0 0 10px 0; font-size: 14px; color: #333333;'><strong>Data:</strong> {$data_envio}</p>
+                            <p style='margin: 0; font-size: 14px; color: #333333;'><strong>Motivo:</strong> <span style='background-color: #e9ecef; padding: 3px 8px; border-radius: 4px; font-size: 13px;'>{$motivo}</span></p>
+                        </div>
+
+                        <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Mensagem</h3>
+
+                        <div style='background-color: #eef5ff; border: 1px solid #cce0ff; padding: 20px; border-radius: 6px;'>
+                            <p style='margin: 0; font-size: 15px; line-height: 1.6; color: #004085;'>{$mensagem_segura}</p>
+                        </div>
+                    </div>
+                    
+                    <div style='background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;'>
+                        <p style='margin: 0; font-size: 14px; color: #888888;'><strong style='color: burlywood;'>PcMaster</strong></p>
+                    </div>
+                    
+                </div>
+            </div>
             ";
 
             $mail->send();

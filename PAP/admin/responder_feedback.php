@@ -87,22 +87,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['responder'])) {
                 $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
                 $mail->addAddress($email, $nome_utilizador);
                 $mail->isHTML(true);
-                $mail->Subject = "Resposta do Feedback";
-
+                $mail->Subject = "Resposta do Feedback - PcMaster";
                 $mail->Body = "
-                    <h2>Olá, {$nome_utilizador}</h2>
-                    <p>Recebemos o seu feedback e agradecemos o seu contacto.</p>
-                    <hr>
-                    <p><strong>Motivo:</strong> {$motivo}</p>
-                    <p><strong>Origem:</strong> " . ($origem ?: 'Não especificada') . "</p>
-                    <p><strong>Mensagem enviada por si:</strong><br>" . nl2br(htmlspecialchars($feedback_texto)) . "</p>
-                    <hr>
-                    <p><strong>Resposta do administrador:</strong><br>" . nl2br(htmlspecialchars($mensagem_resposta)) . "</p>
+<div style='font-family: Arial, Helvetica, sans-serif; background-color: #f4f6f9; padding: 30px 15px; color: #333333;'>
+    <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
+        
+        <div style='background-color: burlywood; padding: 25px; text-align: center;'>
+            <h1 style='color: #ffffff; margin: 0; font-size: 24px;'>Equipa PcMaster</h1>
+        </div>
+        
+        <div style='padding: 30px;'>
+            <p style='font-size: 16px; margin-top: 0;'>Olá, <strong>{$nome_utilizador}</strong>,</p>
+            <p style='font-size: 15px; line-height: 1.6; color: #555555;'>Recebemos o seu feedback e agradecemos imenso o seu contacto.</p>
+            
+            <div style='background-color: #f8f9fa; border-left: 4px solid #adb5bd; padding: 15px; margin: 25px 0; border-radius: 0 4px 4px 0;'>
+                <p style='margin: 0 0 8px 0; font-size: 14px;'><strong>Motivo:</strong> {$motivo}</p>
+                <p style='margin: 0 0 8px 0; font-size: 14px;'><strong>Origem:</strong> " . ($origem ?: 'Não especificada') . "</p>
+                <p style='margin: 0; font-size: 14px; color: #666666;'><strong>A sua mensagem:</strong><br><br>" . nl2br(htmlspecialchars($feedback_texto)) . "</p>
+            </div>
+            
+            <h3 style='color: #0056b3; margin: 30px 0 15px 0; font-size: 18px;'>Resposta do Administrador:</h3>
+            
+            <div style='background-color: #eef5ff; border: 1px solid #cce0ff; padding: 20px; border-radius: 6px;'>
+                <p style='margin: 0; font-size: 15px; line-height: 1.6; color: #004085;'>" . nl2br(htmlspecialchars($mensagem_resposta)) . "</p>
+            </div>
 
-                    <br>
-                    <p>Agradecemos pelo seu feedback acerca dos erros que deixamos passar despercebido.</p>
-                    <p>Atenciosamente,<br><strong>{$admin_nome}</strong> - Equipa PcMaster</p>
-                ";
+            <p style='font-size: 15px; line-height: 1.6; margin-top: 30px; color: #555555;'>Agradecemos pelo seu feedback. É com a sua ajuda que conseguimos melhorar!</p>
+        </div>
+        
+        <div style='background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;'>
+            <p style='margin: 0; font-size: 14px; color: #888888;'>Atenciosamente,<br><strong style='color: #333333;'>{$admin_nome}</strong> - Equipa PcMaster</p>
+        </div>
+    </div>
+</div>
+";
                 $mail->send();
             } catch (Exception $e) {
                 error_log("Erro ao enviar o email de resposta ao utilizador: " . $mail->ErrorInfo);
@@ -164,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['responder'])) {
                     <label for="mensagem"><strong>Sua resposta:</strong></label><br>
                     <textarea name="mensagem" id="mensagem" required rows="6" style="width: 100%; border-radius: 12px; padding: 10px; background-color: rgba(255, 255, 255, 0.8);"></textarea><br><br>
             <br>
-           <div align="center"><button type="submit" class="botao">Enviar Resposta</button></div> 
+         <div align="center"><button type="submit" name="responder" class="botao">Enviar Resposta</button></div>
 
                 </form>
             <?php else: ?>

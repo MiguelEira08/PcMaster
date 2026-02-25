@@ -78,7 +78,7 @@ if ($result && mysqli_num_rows($result) > 0) {
         echo '</tr>';
     }
 } else {
-    echo '<tr><td colspan="9">Nenhum utilizador encontrado.</td></tr>';
+    echo '<tr><td colspan="10">Nenhum utilizador encontrado.</td></tr>';
 }
 ?>
     </tbody>

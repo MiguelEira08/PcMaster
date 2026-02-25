@@ -4,13 +4,20 @@ session_start();
 include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';
 
+// Importações do PHPMailer
+require_once '../PHPMailer/PHPMailer.php';
+require_once '../PHPMailer/SMTP.php';
+require_once '../PHPMailer/Exception.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../login/login.php');
     exit();
 }
 
 $id_utilizador = $_SESSION['user_id'];
-
 
 $stmt = $conn->prepare("SELECT nome, email, tipo FROM utilizadores WHERE id = ?");
 if (!$stmt) die('Erro no prepare: ' . $conn->error);
@@ -21,7 +28,6 @@ $stmt->close();
 
 $is_admin = isset($utilizador_atual['tipo']) && $utilizador_atual['tipo'] === 'admin';
 
-
 $msg = '';
 $msg_type = '';
 
@@ -31,13 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['id'
     $descricao = trim($_POST['descricao'] ?? '');
     $estados_validos = ['confirmado', 'cancelado', 'concluido', 'pendente'];
 
-  
     if ($acao === 'descricao') {
         if ($is_admin) {
             $stmt = $conn->prepare("UPDATE agendamentos SET descricao = ? WHERE id = ?");
             $stmt->bind_param("si", $descricao, $agendamento_id);
         } else {
-           
             $stmt = $conn->prepare("UPDATE agendamentos SET descricao = ? WHERE id = ? AND utilizador_id = ?");
             $stmt->bind_param("sii", $descricao, $agendamento_id, $id_utilizador);
         }
@@ -48,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['id'
                 $msg_type = 'success';
             } else {
                 $msg = 'Nenhuma alteração foi feita na descrição.';
-                $msg_type = 'error'; // ou success, dependendo da tua preferência
+                $msg_type = 'error'; 
             }
         } else {
             $msg = 'Não foi possível atualizar a descrição.';
@@ -74,6 +78,115 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['id'
         if ($stmt->execute() && $stmt->affected_rows > 0) {
             $msg = 'Agendamento atualizado com sucesso.';
             $msg_type = 'success';
+
+            // ---- INÍCIO DO ENVIO DE EMAIL (Confirmado / Cancelado) ----
+            if ($acao === 'confirmado' || $acao === 'cancelado') {
+                
+                // 1. Obter detalhes do agendamento e do cliente para o email
+                $stmt_email = $conn->prepare("
+                    SELECT a.data_agendamento, a.hora_inicio, a.tipo_servico, u.nome, u.email 
+                    FROM agendamentos a 
+                    JOIN utilizadores u ON a.utilizador_id = u.id 
+                    WHERE a.id = ?
+                ");
+                $stmt_email->bind_param("i", $agendamento_id);
+                $stmt_email->execute();
+                $res_email = $stmt_email->get_result();
+                
+                if ($dados = $res_email->fetch_assoc()) {
+                    
+                    $mail = new PHPMailer(true);
+                    try {
+                        $mail->CharSet = 'UTF-8';
+                        $mail->isSMTP();
+                        $mail->Host       = 'smtp.gmail.com';
+                        $mail->SMTPAuth   = true;
+                        $mail->Username   = 'pcmastergeral@gmail.com';
+                        $mail->Password   = 'mjsv oxar shbz dfzp'; // ⚠️ ATUALIZA A TUA PASS AQUI!
+                        $mail->SMTPSecure = 'tls';
+                        $mail->Port       = 587;
+
+                        $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
+                        $mail->addAddress($dados['email'], $dados['nome']);
+                        $mail->isHTML(true);
+                        $mail->Subject = "Estado do Agendamento - PcMaster";
+
+                        // Lógica de cores e texto consoante o estado
+                        if ($acao === 'confirmado') {
+                            $cor_texto_estado = '#28a745'; // Verde
+                            $cor_fundo_estado = '#d4edda';
+                            $cor_borda_estado = '#c3e6cb';
+                            $msg_intro = "O seu agendamento foi <strong>confirmado</strong> com sucesso! <br> Caso haja alguma imprevisto, ligaremos para o nº associado á sua conta.";
+                        } else { // cancelado
+                            $cor_texto_estado = '#dc3545'; // Vermelho
+                            $cor_fundo_estado = '#f8d7da';
+                            $cor_borda_estado = '#f5c6cb';
+                            $msg_intro = "Informamos que o seu agendamento foi <strong>cancelado</strong>.";
+                        }
+
+                        // Formatar data e hora
+                        $data_formatada = date('d/m/Y', strtotime($dados['data_agendamento']));
+                        $hora_formatada = substr($dados['hora_inicio'], 0, 5);
+                        $servico = ucfirst(htmlspecialchars($dados['tipo_servico']));
+
+                        // Se houver uma descrição (motivo/nota), preparamos a caixa para a mostrar
+                        $bloco_descricao = '';
+                        if (!empty($descricao)) {
+                            $bloco_descricao = "
+                                <h3 style='color: burlywood; margin: 30px 0 10px 0; font-size: 16px;'>Nota da Administração:</h3>
+                                <div style='background-color: #eef5ff; border: 1px solid #cce0ff; padding: 15px; border-radius: 6px;'>
+                                    <p style='margin: 0; font-size: 15px; line-height: 1.6; color: #004085;'>" . nl2br(htmlspecialchars($descricao)) . "</p>
+                                </div>
+                            ";
+                        }
+
+                        $mail->Body = "
+                        <div style='font-family: Arial, Helvetica, sans-serif; background-color: #f4f6f9; padding: 30px 15px; color: #333333;'>
+                            <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
+                                
+                                <div style='background-color: burlywood; padding: 25px; text-align: center;'>
+                                    <h1 style='color: #ffffff; margin: 0; font-size: 24px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);'>Equipa PcMaster</h1>
+                                </div>
+                                
+                                <div style='padding: 30px;'>
+                                    <p style='font-size: 16px; margin-top: 0;'>Olá, <strong>{$dados['nome']}</strong>,</p>
+                                    <p style='font-size: 15px; line-height: 1.6; color: #555555;'>{$msg_intro}</p>
+                                    
+                                    <h3 align='center'style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Estado do Agendamento</h3>
+                                    <div style='background-color: {$cor_fundo_estado}; border: 1px solid {$cor_borda_estado}; padding: 15px; border-radius: 6px; text-align: center; margin: 25px 0;'>
+                                        <p style='margin: 0; font-size: 16px; color: #555555;'><strong style='font-size: 18px; text-transform: uppercase; color: {$cor_texto_estado};'>{$acao}</strong></p>
+                                    </div>
+                                    
+                                    <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Detalhes do Serviço</h3>
+                                    
+                                    <div style='background-color: #f8f9fa; border-left: 4px solid burlywood; padding: 15px; border-radius: 0 4px 4px 0;'>
+                                        <p style='margin: 0 0 10px 0; font-size: 14px; color: #666666;'><strong>Serviço:</strong> {$servico}</p>
+                                        <p style='margin: 0 0 10px 0; font-size: 14px; color: #666666;'><strong>Data:</strong> {$data_formatada}</p>
+                                        <p style='margin: 0; font-size: 14px; color: #666666;'><strong>Hora:</strong> {$hora_formatada}</p>
+                                    </div>
+
+                                    {$bloco_descricao}
+
+                                    <p style='font-size: 15px; line-height: 1.6; margin-top: 30px; color: #555555;'>Se tiver alguma dúvida, por favor responda a este email.</p>
+                                </div>
+                                
+                                <div style='background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;'>
+                                    <p style='margin: 0; font-size: 14px; color: #888888;'>Obrigado por escolher a <strong style='color: burlywood;'>PcMaster</strong>!</p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        ";
+
+                        $mail->send();
+                    } catch (Exception $e) {
+                        error_log("Erro ao enviar email de agendamento: " . $mail->ErrorInfo);
+                    }
+                }
+                $stmt_email->close();
+            }
+            // ---- FIM DO ENVIO DE EMAIL ----
+
         } else {
             $msg = 'Não foi possível atualizar o agendamento.';
             $msg_type = 'error';

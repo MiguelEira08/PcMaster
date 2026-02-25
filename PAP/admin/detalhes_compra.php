@@ -62,42 +62,87 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compra_id'], $_POST['
             $total += $item['quantidade'] * $item['preco'];
         }
         $stmtItens->close();
-
-        // Enviar email
         $mail = new PHPMailer(true);
-        try {
-            $mail->CharSet = 'UTF-8';
-            $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';
-            $mail->SMTPAuth   = true;
-            $mail->Username   = 'pcmastergeral@gmail.com';
-            $mail->Password   = 'mjsv oxar shbz dfzp';
-            $mail->SMTPSecure = 'tls';
-            $mail->Port       = 587;
+try {
+    $mail->CharSet = 'UTF-8';
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'pcmastergeral@gmail.com';
+    $mail->Password   = 'mjsv oxar shbz dfzp'; // ⚠️ POR FAVOR, MUDA A TUA PASSWORD!
+    $mail->SMTPSecure = 'tls';
+    $mail->Port       = 587;
 
-            $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
-            $mail->addAddress($userEmail, $userNome);
-            $mail->isHTML(true);
-            $mail->Subject = "Encomenda PcMaster";
+    $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
+    $mail->addAddress($userEmail, $userNome);
+    $mail->isHTML(true);
+    $mail->Subject = "Atualização da Encomenda - PcMaster";
 
-            $produtosStr = implode(', ', $nomesProdutos);
-            $totalFormatado = number_format($total, 2, ',', '.');
+    $produtosStr = implode(', ', $nomesProdutos);
+    $totalFormatado = number_format($total, 2, ',', '.');
 
-            $mail->Body = "
-                <p>Olá <strong>{$userNome}</strong>,</p>
-                <p>O estado da sua encomenda foi atualizado.</p>
-                <p><strong>Produto(s):</strong> {$produtosStr}</p>
-                <p><strong>Total:</strong> {$totalFormatado} €</p> 
-                <p><strong>Estado: </strong>{$novoEstado}.</p>
-                <p><strong>Data da compra:</strong> {$dataCompra}</p>
-                <br>
-                <p>Obrigado por comprar na <strong>PcMaster</strong>!</p>
-            ";
+    // Lógica para definir as cores consoante o estado da encomenda
+    $estado_formatado = strtolower(trim($novoEstado)); // Passa tudo para minúsculas para evitar erros de formatação
+    
+    if ($estado_formatado === 'pendente') {
+        $cor_texto_estado = '#dc3545'; // Vermelho
+        $cor_fundo_estado = '#f8d7da'; // Fundo vermelho clarinho
+        $cor_borda_estado = '#f5c6cb';
+    } elseif ($estado_formatado === 'a caminho') {
+        $cor_texto_estado = 'chocolate'; // Laranja
+        $cor_fundo_estado = '#fff3cd'; // Fundo laranja/amarelo clarinho
+        $cor_borda_estado = '#ffeeba';
+    } elseif ($estado_formatado === 'entregue') {
+        $cor_texto_estado = '#28a745'; // Verde
+        $cor_fundo_estado = '#d4edda'; // Fundo verde clarinho
+        $cor_borda_estado = '#c3e6cb';
+    } else {
+        // Cor padrão (ex: azul) caso haja um estado diferente
+        $cor_texto_estado = '#004085'; 
+        $cor_fundo_estado = '#cce5ff';
+        $cor_borda_estado = '#b8daff';
+    }
 
-            $mail->send();
-        } catch (Exception $e) {
-            error_log("Erro ao enviar email: " . $mail->ErrorInfo);
-        }
+    $mail->Body = "
+    <div style='font-family: Arial, Helvetica, sans-serif; background-color: #f4f6f9; padding: 30px 15px; color: #333333;'>
+        <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
+            
+            <div style='background-color: burlywood; padding: 25px; text-align: center;'>
+                <h1 style='color: #ffffff; margin: 0; font-size: 24px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);'>Equipa PcMaster</h1>
+            </div>
+            
+            <div style='padding: 30px;'>
+                <p style='font-size: 16px; margin-top: 0;'>Olá, <strong>{$userNome}</strong>,</p>
+                <p style='font-size: 15px; line-height: 1.6; color: #555555;'>Temos novidades! O estado da sua encomenda foi atualizado.</p>
+                <h3 align='center' style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Estado da Encomenda</h3>
+                            
+                <div style='background-color: {$cor_fundo_estado}; border: 1px solid {$cor_borda_estado}; padding: 15px; border-radius: 6px; text-align: center; margin: 25px 0;'>
+                    <p style='margin: 0; font-size: 16px; color: #555555;'><strong style='font-size: 18px; text-transform: uppercase; color: {$cor_texto_estado};'>{$novoEstado}</strong></p>
+                </div>
+                
+                <h3 style='color: burlywood; margin: 30px 0 15px 0; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px;'>Resumo da Encomenda</h3>
+                
+                <div style='background-color: #f8f9fa; border-left: 4px solid burlywood; padding: 15px; border-radius: 0 4px 4px 0;'>
+                    <p style='margin: 0 0 10px 0; font-size: 14px; color: #666666;'><strong>Data da compra:</strong> {$dataCompra}</p>
+                    <p style='margin: 0 0 10px 0; font-size: 14px; line-height: 1.5;'><strong>Produto(s):</strong> {$produtosStr}</p>
+                    <p style='margin: 0; font-size: 15px;'><strong>Total:</strong> <strong style='color: burlywood;'>{$totalFormatado} €</strong></p>
+                </div>
+
+                <p style='font-size: 15px; line-height: 1.6; margin-top: 30px; color: #555555;'>Se tiver alguma dúvida sobre a sua encomenda, não hesite em responder a este email.</p>
+            </div>
+            
+            <div style='background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;'>
+                <p style='margin: 0; font-size: 14px; color: #888888;'>Obrigado por escolher a <strong style='color: burlywood;'>PcMaster</strong>!</p>
+            </div>
+            
+        </div>
+    </div>
+    ";
+
+    $mail->send();
+} catch (Exception $e) {
+    error_log("Erro ao enviar email de encomenda: " . $mail->ErrorInfo);
+}
     }
 
     $redirect = 'detalhes_compra.php?id=' . $compraId;
