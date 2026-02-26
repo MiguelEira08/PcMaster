@@ -177,7 +177,7 @@ if (isset($_POST['confirmar_compra'])) {
                         </div>
                         
                         <div style='background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;'>
-                            <p style='margin: 0; font-size: 14px; color: #888888;'>Obrigado por comprar na <strong style='color: burlywood;'>PcMaster</strong>!<br>Volte sempre.</p>
+                                    <p style='margin: 0; font-size: 14px; color: #888888;'>Obrigado por escolher a <strong style='color: burlywood;'>PcMaster</strong>!</p>
                         </div>
                         
                     </div>

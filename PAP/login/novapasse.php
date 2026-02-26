@@ -67,11 +67,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
                     $mail->addAddress($email);
-
                     $mail->isHTML(true);
-                    $mail->Subject = 'Alteração de Palavra-Passe';
-                    $mail->Body    = '<strong>A sua palavra-passe foi alterada com sucesso.</strong><br>
-                                      Se não foi você, por favor contacte o suporte imediatamente.';
+                    $mail->Subject = 'Nova palavra-passe - PcMaster';
+                    $mail->Body = "
+                    <div style='font-family: Arial, Helvetica, sans-serif; background-color: #f4f6f9; padding: 30px 15px; color: #333333;'>
+                        <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
+                            
+                            <div style='background-color: burlywood; padding: 25px; text-align: center;'>
+                                <h1 style='color: #ffffff; margin: 0; font-size: 24px;'>Equipa PcMaster</h1>
+                            </div>
+                            
+                            <div style='padding: 30px;'>
+                                <p style='font-size: 16px; margin-top: 0;'>Olá,</p>
+                                <p style='font-size: 15px; line-height: 1.6; color: #555555;'>Este é um aviso automático sobre a segurança da sua conta.</p>
+                                
+                                <div style='background-color: #eef5ff; border: 1px solid #cce0ff; padding: 20px; border-radius: 6px; margin: 25px 0;'>
+                                    <p style='margin: 0; font-size: 15px; line-height: 1.6; color: #004085; text-align: center;'>
+                                        <strong>A sua palavra-passe foi alterada com sucesso.</strong>
+                                    </p>
+                                </div>
+
+                                <div style='background-color: #f8f9fa; border-left: 4px solid #adb5bd; padding: 15px; margin: 25px 0; border-radius: 0 4px 4px 0;'>
+                                    <p style='margin: 0; font-size: 14px; color: #666666;'>
+                                        <strong>Não foi você?</strong><br>
+                                        Se não solicitou esta alteração, por favor contacte o nosso suporte imediatamente ou tente recuperar o acesso através da página de login.
+                                    </p>
+                                </div>
+
+                                <p style='font-size: 15px; line-height: 1.6; margin-top: 30px; color: #555555;'>Para sua segurança, nunca partilhe os seus dados de acesso com terceiros.</p>
+                            </div>
+                            
+                            <div style='background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;'>
+                                    <p style='margin: 0; font-size: 14px; color: #888888;'>Obrigado por escolher a <strong style='color: burlywood;'>PcMaster</strong>!</p>
+                            </div>
+                        </div>
+                    </div>
+                    ";
 
                     $mail->send();
                 } catch (Exception $e) {

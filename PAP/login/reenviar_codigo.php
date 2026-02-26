@@ -59,15 +59,40 @@ try {
 
     $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
     $mail->addAddress($email, $user['nome']);
-
     $mail->isHTML(true);
-    $mail->Subject = 'Novo código de verificação - PcMaster';
+    $mail->Subject = 'Código de verificação - PcMaster';
 
     $mail->Body = "
-        <h2>Olá, {$user['nome']}!</h2>
-        <p>Foi solicitado um novo código de verificação.</p>
-        <h1 style='letter-spacing:5px;'>$novo_codigo</h1>
-        <p>Este código é válido por 10 minutos.</p>
+    <div style='font-family: Arial, Helvetica, sans-serif; background-color: #f4f6f9; padding: 30px 15px; color: #333333;'>
+        <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
+            
+            <div style='background-color: burlywood; padding: 25px; text-align: center;'>
+                <h1 style='color: #ffffff; margin: 0; font-size: 24px;'>Equipa PcMaster</h1>
+            </div>
+            
+            <div style='padding: 30px; text-align: center;'>
+                <p style='font-size: 18px; margin-top: 0; color: #333333;'>Olá, <strong>{$user['nome']}</strong>!</p>
+                <p style='font-size: 15px; line-height: 1.6; color: #555555;'>Recebemos um pedido para gerar um novo código de verificação para a sua conta.</p>
+                
+                <div style='background-color: #f8f9fa; border: 2px dashed burlywood; padding: 20px; margin: 30px 0; border-radius: 10px;'>
+                    <p style='margin: 0 0 10px 0; font-size: 14px; color: #888888; text-transform: uppercase; letter-spacing: 1px;'>O seu código é:</p>
+                    <h1 style='margin: 0; font-size: 36px; letter-spacing: 8px; color: #0056b3; font-family: monospace;'>{$novo_codigo}</h1>
+                </div>
+
+                <div style='background-color: #fff9e6; border-left: 4px solid #ffcc00; padding: 12px; margin-top: 25px; border-radius: 0 4px 4px 0; text-align: left;'>
+                    <p style='margin: 0; font-size: 14px; color: #856404;'>
+                        <strong>Atenção:</strong> Este código é válido por apenas <strong>10 minutos</strong>.
+                    </p>
+                </div>
+                
+                <p style='font-size: 14px; line-height: 1.6; margin-top: 30px; color: #888888;'>Se não solicitou este código, por favor ignore este e-mail.</p>
+            </div>
+            
+            <div style='background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;'>
+                                    <p style='margin: 0; font-size: 14px; color: #888888;'>Obrigado por escolher a <strong style='color: burlywood;'>PcMaster</strong>!</p>
+            </div>
+        </div>
+    </div>
     ";
 
     $mail->send();

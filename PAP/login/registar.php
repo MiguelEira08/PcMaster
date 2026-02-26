@@ -93,22 +93,44 @@ $stmt->bind_param("ssssss", $nome, $email, $numtel, $hashed_password, $caminho_a
 
                         $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
                         $mail->addAddress($email, $nome);
-
                         $mail->isHTML(true);
-                        $mail->Subject = 'Verifique a sua conta - PcMaster';
+                        $mail->Subject = 'Verificar conta - PcMaster';
 
                         $link = "http://localhost/PcMaster/PAP/login/verificar_conta.php?email=" . urlencode($email);
 
-                      $mail->Body = "
-    <h2>Olá, $nome!</h2>
-    <p>Obrigado por se registar na PcMaster.</p>
-    <p>O seu código de verificação é:</p>
+                        $mail->Body = "
+                        <div style='font-family: Arial, Helvetica, sans-serif; background-color: #f4f6f9; padding: 30px 15px; color: #333333;'>
+                            <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
+                                
+                                <div style='background-color: burlywood; padding: 25px; text-align: center;'>
+                                    <h1 style='color: #ffffff; margin: 0; font-size: 24px;'>Bem-vindo à PcMaster!</h1>
+                                </div>
+                                
+                                <div style='padding: 30px; text-align: center;'>
+                                    <p style='font-size: 18px; margin-top: 0; color: #333333;'>Olá, <strong>{$nome}</strong>!</p>
+                                    <p style='font-size: 15px; line-height: 1.6; color: #555555;'>Obrigado por se registar na nossa plataforma. Estamos muito contentes por o ter connosco!</p>
+                                    
+                                    <p style='font-size: 15px; color: #555555; margin-top: 20px;'>Para ativar a sua conta, utilize o código abaixo:</p>
 
-    <h1 style='letter-spacing:5px;'>$codigo</h1>
+                                    <div style='background-color: #f8f9fa; border: 2px dashed burlywood; padding: 20px; margin: 25px 0; border-radius: 10px;'>
+                                        <h1 style='margin: 0; font-size: 38px; letter-spacing: 8px; color: #0056b3; font-family: monospace;'>{$codigo}</h1>
+                                    </div>
 
-    <p>Introduza este código no site para verificar a sua conta.</p>
-    <p><small>Este código é válido por tempo limitado.</small></p>
-";
+                                    <p style='font-size: 15px; line-height: 1.6; color: #555555;'>
+                                        Introduza este código na página de verificação para concluir o seu registo.
+                                    </p>
+
+                                    <p style='margin-top: 25px; font-size: 13px; color: #999999;'>
+                                        <small>Este código é válido por tempo limitado para garantir a segurança da sua conta.</small>
+                                    </p>
+                                </div>
+                                
+                                <div style='background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;'>
+                                    <p style='margin: 0; font-size: 14px; color: #888888;'>Bem-vindo à nossa comunidade!<br><strong style='color: #333333;'>Equipa PcMaster</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                        ";
 
                         $mail->send();
                     } catch (Exception $e) {}
