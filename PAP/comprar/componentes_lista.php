@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 include_once '../db.php';
 
@@ -35,6 +36,19 @@ if ($params) {
 if ($result && mysqli_num_rows($result) > 0) {
     echo '<div class="grid-produtos" style="display:flex; flex-wrap:wrap; gap:24px; justify-content:flex-start;">';
     while ($row = mysqli_fetch_assoc($result)) {
+        $ja_favorito = false;
+
+if (isset($_SESSION['user_id'])) {
+    $sqlFav = "SELECT id FROM favoritos 
+               WHERE id_utilizador = ? 
+               AND id_item = ? 
+               AND tipo_item = 'componente'";
+    $stmtFav = $conn->prepare($sqlFav);
+    $stmtFav->bind_param("ii", $_SESSION['user_id'], $row['id']);
+    $stmtFav->execute();
+    $resFav = $stmtFav->get_result();
+    $ja_favorito = $resFav->num_rows > 0;
+}
     $precoOriginal = $row["preco"];
     $desconto = $row["desconto"];
     $inicio = $row["tempoinicio_desconto"];
@@ -44,6 +58,15 @@ if ($result && mysqli_num_rows($result) > 0) {
     $fimTime = $fim ? strtotime($fim) : null;
         echo '<div class="cartao-produto" style="width:300px; height:400px; display:flex; flex-direction:column; justify-content:space-between; box-sizing:border-box;">';
         echo '<div class="cartao-imagem" style="position:relative; width:100%; height:250px; display:flex; align-items:center; justify-content:center; overflow:hidden;">';
+
+        if (isset($_SESSION['user_id'])) {
+    echo '<span class="coracao '.($ja_favorito ? 'ativo' : '').'" 
+            data-id="'.$row['id'].'" 
+            data-tipo="componente"
+            style="position:absolute; top:10px; right:10px; font-size:22px; cursor:pointer; z-index:20;">
+            ❤
+          </span>';
+}
          if ($desconto !== null && $desconto > 0 && $inicioTime && $fimTime && $agora >= $inicioTime && $agora <= $fimTime) {
           echo '<div style="position:absolute; top:10px; left:10px; background:burlywood; color:black; padding:6px 10px; font-weight:bold; border-radius:6px; font-size:14px; z-index:10;">-' . (int)$desconto . '%</div>';
 }

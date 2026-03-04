@@ -25,9 +25,7 @@ if (!$produto) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-        <a href="../comprar/perifericos.php" class="botao-voltar voltar-fixo">
-    ← Voltar
-</a>
+   <a href="javascript:history.back()" class="botao-voltar voltar-fixo">← Voltar</a>
     <div class="bg">
         <div class="overlay"></div>
         <br><br><br>

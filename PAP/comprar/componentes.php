@@ -204,6 +204,45 @@ window.addEventListener('DOMContentLoaded', () => {
       content.innerHTML = '<p>Erro ao carregar produtos.</p>';
     });
 });
+
+document.addEventListener('click', function(e) {
+
+  if (e.target.classList.contains('coracao')) {
+
+    const idItem = e.target.dataset.id;
+    const tipoItem = e.target.dataset.tipo;
+
+    fetch('../favoritos/toogle_favoritos.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: 'id_item=' + idItem + '&tipo_item=' + tipoItem
+    })
+    .then(response => response.json())
+    .then(data => {
+
+      console.log(data); // 👈 muito importante para debug
+
+      if (data.status === 'adicionado') {
+        e.target.classList.add('ativo');
+      }
+
+      if (data.status === 'removido') {
+        e.target.classList.remove('ativo');
+      }
+
+      if (data.status === 'erro') {
+        alert("Erro ao adicionar favorito.");
+      }
+
+    })
+    .catch(err => {
+      console.error("Erro fetch:", err);
+    });
+  }
+
+});
 </script>
 
 </body>

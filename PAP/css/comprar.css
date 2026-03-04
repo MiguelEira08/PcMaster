@@ -436,3 +436,12 @@ backdrop-filter: blur(1px);
   font-style: normal;
   color: rgb(0, 0, 0);
 }
+.coracao {
+    color: gray;
+    transition: 0.3s;
+}
+
+.coracao.ativo {
+    color: red;
+    transform: scale(1.2);
+}

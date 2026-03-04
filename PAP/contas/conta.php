@@ -85,6 +85,15 @@ if (!empty($utilizador['caminho_arquivo'])) {
 
   </div>
 
+  <div class="caixa-container">
+
+  <a href="../favoritos/meus_favoritos.php" class="caixa">
+    <img src="../imagens/favoritos.png" alt="imagem" class="caixa-imagem">
+    Favoritos
+  </a>
+
+</div>
+
 </div>
 </div>
 </div>

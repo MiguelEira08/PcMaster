@@ -47,6 +47,9 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
   <div class="caixa-container">    
     <a href="gerir_agendamento.php" class="caixa">
       <img src="../imagens/agenda.png" alt="Comprar" class="caixa-imagem">Gerir Agendamentos</a>
+
+      <a href="admin_favoritos.php" class="caixa">
+      <img src="../imagens/favoritos.png" alt="Comprar" class="caixa-imagem">Gerir Favoritos</a>
 </div>
 </div>
 </body>
