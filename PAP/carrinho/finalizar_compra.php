@@ -136,7 +136,7 @@ if (isset($_POST['confirmar_compra'])) {
                 $mail->Host       = 'smtp.gmail.com';     
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'pcmastergeral@gmail.com'; 
-                $mail->Password   = 'mjsv oxar shbz dfzp'; // ⚠️ ATUALIZA AQUI! E MUDA A TUA PASS DA CONTA GOOGLE.       
+                $mail->Password   = 'iuiv lkdy abyt xojv'; // ⚠️ ATUALIZA AQUI! E MUDA A TUA PASS DA CONTA GOOGLE.       
                 $mail->SMTPSecure = 'tls';
                 $mail->Port       = 587;
 

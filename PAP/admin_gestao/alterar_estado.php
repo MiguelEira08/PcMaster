@@ -87,7 +87,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
                     $mail->Host       = 'smtp.gmail.com';
                     $mail->SMTPAuth   = true;
                     $mail->Username   = 'pcmastergeral@gmail.com'; 
-                    $mail->Password   = 'mjsv oxar shbz dfzp'; // Atualiza a password aqui!
+                    $mail->Password   = 'iuiv lkdy abyt xojv'; // Atualiza a password aqui!
                     $mail->SMTPSecure = 'tls';
                     $mail->Port       = 587;
 

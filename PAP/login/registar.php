@@ -87,7 +87,7 @@ $stmt->bind_param("ssssss", $nome, $email, $numtel, $hashed_password, $caminho_a
                         $mail->Host = 'smtp.gmail.com';
                         $mail->SMTPAuth = true;
                         $mail->Username = 'pcmastergeral@gmail.com';
-                        $mail->Password = 'mjsv oxar shbz dfzp';
+                        $mail->Password = 'iuiv lkdy abyt xojv';
                         $mail->SMTPSecure = 'tls';
                         $mail->Port = 587;
 

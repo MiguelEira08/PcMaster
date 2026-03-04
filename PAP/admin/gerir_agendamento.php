@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['id'
                         $mail->Host       = 'smtp.gmail.com';
                         $mail->SMTPAuth   = true;
                         $mail->Username   = 'pcmastergeral@gmail.com';
-                        $mail->Password   = 'mjsv oxar shbz dfzp'; // ⚠️ ATUALIZA A TUA PASS AQUI!
+                        $mail->Password   = 'iuiv lkdy abyt xojv'; // ⚠️ ATUALIZA A TUA PASS AQUI!
                         $mail->SMTPSecure = 'tls';
                         $mail->Port       = 587;
 

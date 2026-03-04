@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username   = 'pcmastergeral@gmail.com';
-            $mail->Password   = 'mjsv oxar shbz dfzp'; // ⚠️ POR FAVOR, ELIMINA A PASS ANTIGA DA TUA CONTA GOOGLE
+            $mail->Password   = 'iuiv lkdy abyt xojv'; // ⚠️ POR FAVOR, ELIMINA A PASS ANTIGA DA TUA CONTA GOOGLE
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 

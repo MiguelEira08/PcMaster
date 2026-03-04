@@ -69,7 +69,7 @@ try {
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
     $mail->Username   = 'pcmastergeral@gmail.com';
-    $mail->Password   = 'mjsv oxar shbz dfzp'; // ⚠️ POR FAVOR, MUDA A TUA PASSWORD!
+    $mail->Password   = 'iuiv lkdy abyt xojv'; // ⚠️ POR FAVOR, MUDA A TUA PASSWORD!
     $mail->SMTPSecure = 'tls';
     $mail->Port       = 587;
 
