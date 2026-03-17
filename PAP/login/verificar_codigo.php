@@ -116,7 +116,7 @@ if (!$user) {
                     <br><br>
                     <button type="submit">Verificar Conta</button>
                     <p style="margin-top:15px;">
-                    Não recebeu o código?
+                    Não recebeu o código? Progure na caixa de spam ou clique em: <br>
                     <a href="reenviar_codigo.php?email=<?= urlencode($email) ?>">
                     Reenviar código
                     </a>
