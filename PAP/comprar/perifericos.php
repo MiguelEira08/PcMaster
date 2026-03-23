@@ -1,31 +1,31 @@
-  <?php
-  session_start();
-  include_once __DIR__ . '/../db.php';
-  include_once __DIR__ . '/../cabecindex.php';
-  ?>
+<?php
+session_start();
+include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../cabecindex.php';
+?>
 
-  <!DOCTYPE html>
-  <html lang="pt">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="../imagens/icon.png">
-    <title>Loja Periféricos</title>
-    <link rel="stylesheet" href="../css/comprar.css">
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
+  <title>Loja Periféricos</title>
+  <link rel="stylesheet" href="../css/comprar.css">
   <link rel="icon" type="image/png" href="/imagens/logo.png?v=2">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-  <body>
-        <a href="../comprar/loja.php" class="botao-voltar voltar-fixo">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <a href="../comprar/loja.php" class="botao-voltar voltar-fixo">
     ← Voltar
-</a>
+  </a>
   <div class="bg">
     <div class="loja-container">
-    <div class="overlay"></div>
+      <div class="overlay"></div>
       <aside class="sidebar">
         <div class="search-box"></div>
-      <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Pesquisar periféricos...">
-  </div>
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Pesquisar periféricos...">
+        </div>
         <ul>
           <li><a href="perifericos_lista.php">Todos os Tipos</a></li>
           <li class="has-sub"><a href="#">Fones</a>
@@ -37,7 +37,6 @@
               <li><a href="?tipo=Fones&q=Logitech">Logitech</a></li>
               <li><a href="?tipo=Fones&q=Mars Gaming">Mars Gaming</a></li>
               <li><a href="?tipo=Fones&q=Razer">Razer</a></li>
-
             </ul>
           </li>
           <li class="has-sub"><a href="#">Teclados</a>
@@ -64,7 +63,6 @@
               <li><a href="?tipo=Rato&q=Mars Gaming">Mars Gaming</a></li>
               <li><a href="?tipo=Rato&q=NPlay">NPlay</a></li>
               <li><a href="?tipo=Rato&q=Razer">Razer</a></li>
-              
             </ul>
           </li>
           <li class="has-sub"><a href="#">Tapetes de Rato</a>
@@ -92,8 +90,7 @@
           </li>
         </ul>
         <br>
-    <div class="caixa-container">
- 
+        <div class="caixa-container"></div>
       </aside>
 
       <main class="content" id="content">
@@ -101,118 +98,120 @@
       </main>
     </div>
   </div>
+
   <script>
-  const input = document.getElementById('searchInput');
-  const content = document.getElementById('content');
+    const input = document.getElementById('searchInput');
+    const content = document.getElementById('content');
 
-  function pesquisar() {
-    const query = input.value.trim();
-    let url = 'perifericos_lista.php';
-    if (query) {
-      url += '?q=' + encodeURIComponent(query);
+    function pesquisar() {
+      const query = input.value.trim();
+      let url = 'perifericos_lista.php';
+      if (query) {
+        url += '?q=' + encodeURIComponent(query);
+      }
+
+      fetch(url)
+        .then(response => {
+          if (!response.ok) throw new Error('Erro ao pesquisar');
+          return response.text();
+        })
+        .then(html => {
+          content.innerHTML = html;
+        })
+        .catch(err => {
+          console.error(err);
+          content.innerHTML = '<p>Erro ao carregar produtos.</p>';
+        });
     }
 
-    fetch(url)
-      .then(response => {
-        if (!response.ok) throw new Error('Erro ao pesquisar');
-        return response.text();
-      })
-      .then(html => {
-        content.innerHTML = html;
-      })
-      .catch(err => {
-        console.error(err);
-        content.innerHTML = '<p>Erro ao carregar produtos.</p>';
-      });
-  }
+    input.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        pesquisar();
+      }
+    });
 
-  input.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
+    input.addEventListener('input', () => {
       pesquisar();
-    }
-  });
-
-  input.addEventListener('input', () => {
-    pesquisar();
-  });
-
-  document.querySelectorAll('.sidebar a').forEach(link => {
-    link.addEventListener('click', function(e) {
-      const parentLi = this.closest('.has-sub');
-
-      if (parentLi && this === parentLi.querySelector(':scope > a') && this.nextElementSibling) {
-        e.preventDefault();
-        parentLi.classList.toggle('open');
-        return;
-      }
-
-      if (this.getAttribute('href').includes('perifericos_lista.php')) {
-        e.preventDefault();
-        fetch(this.getAttribute('href'))
-          .then(r => r.text())
-          .then(html => {
-            content.innerHTML = html;
-          })
-          .catch(err => {
-            console.error(err);
-            content.innerHTML = '<p>Erro ao carregar produtos.</p>';
-          });
-      }
     });
-  });
 
-  window.addEventListener('DOMContentLoaded', () => {
-    fetch('perifericos_lista.php')
-      .then(r => r.text())
-      .then(html => {
-        content.innerHTML = html;
-      })
-      .catch(err => {
-        console.error(err);
-        content.innerHTML = '<p>Erro ao carregar produtos.</p>';
+    // Lógica corrigida para os links da sidebar (AJAX)
+    document.querySelectorAll('.sidebar a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const parentLi = this.closest('.has-sub');
+        const href = this.getAttribute('href');
+
+        // Abrir/fechar menus dropdown
+        if (parentLi && this === parentLi.querySelector(':scope > a') && this.nextElementSibling) {
+          e.preventDefault();
+          parentLi.classList.toggle('open');
+          return;
+        }
+
+        // Fazer o fetch se for o ficheiro principal ou um link de filtro (começa por '?')
+        if (href && (href.includes('perifericos_lista.php') || href.startsWith('?'))) {
+          e.preventDefault();
+          
+          // Constrói o URL correto: se começar por '?' adiciona o nome do ficheiro antes
+          let fetchUrl = href.startsWith('?') ? 'perifericos_lista.php' + href : href;
+
+          fetch(fetchUrl)
+            .then(r => {
+              if (!r.ok) throw new Error('Erro na resposta da rede');
+              return r.text();
+            })
+            .then(html => {
+              content.innerHTML = html;
+            })
+            .catch(err => {
+              console.error(err);
+              content.innerHTML = '<p>Erro ao carregar produtos.</p>';
+            });
+        }
       });
-  });
-  
-  document.addEventListener('click', function(e) {
-
-  if (e.target.classList.contains('coracao')) {
-
-    const idItem = e.target.dataset.id;
-    const tipoItem = e.target.dataset.tipo;
-
-    fetch('../favoritos/toogle_favoritos.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: 'id_item=' + idItem + '&tipo_item=' + tipoItem
-    })
-    .then(response => response.json())
-    .then(data => {
-
-      console.log(data); // 👈 muito importante para debug
-
-      if (data.status === 'adicionado') {
-        e.target.classList.add('ativo');
-      }
-
-      if (data.status === 'removido') {
-        e.target.classList.remove('ativo');
-      }
-
-      if (data.status === 'erro') {
-        alert("Erro ao adicionar favorito.");
-      }
-
-    })
-    .catch(err => {
-      console.error("Erro fetch:", err);
     });
-  }
 
-});
-</script>
+    window.addEventListener('DOMContentLoaded', () => {
+      fetch('perifericos_lista.php')
+        .then(r => r.text())
+        .then(html => {
+          content.innerHTML = html;
+        })
+        .catch(err => {
+          console.error(err);
+          content.innerHTML = '<p>Erro ao carregar produtos.</p>';
+        });
+    });
+
+    // Lógica dos Favoritos (Coração)
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('coracao')) {
+        const idItem = e.target.dataset.id;
+        const tipoItem = e.target.dataset.tipo;
+
+        fetch('../favoritos/toogle_favoritos.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: 'id_item=' + idItem + '&tipo_item=' + tipoItem
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data); // Para debug
+
+          if (data.status === 'adicionado') {
+            e.target.classList.add('ativo');
+          } else if (data.status === 'removido') {
+            e.target.classList.remove('ativo');
+          } else if (data.status === 'erro') {
+            alert("Erro ao adicionar favorito.");
+          }
+        })
+        .catch(err => {
+          console.error("Erro fetch:", err);
+        });
+      }
+    });
   </script>
-
-  </body>
-  </html>
+</body>
+</html>
