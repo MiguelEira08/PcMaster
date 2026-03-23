@@ -33,7 +33,7 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
       <img src="../imagens/user.png" alt="Comprar" class="caixa-imagem">Gerir Utilizadores</a>
     
     <a href="bloqueios.php" class="caixa">
-      <img src="../imagens/block.png" alt="Comprar" class="caixa-imagem">Gerir Utilizadores</a>
+      <img src="../imagens/block.png" alt="Comprar" class="caixa-imagem">Gerir Bloqueios</a>
   </div>
 </div>
 </div>
