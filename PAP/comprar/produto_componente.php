@@ -29,7 +29,7 @@ if (!$produto) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <a href="javascript:history.back()" class="botao-voltar voltar-fixo">← Voltar</a>
+<div class="botao-link botao-voltar voltar-fixo" onclick="window.location.href='./componentes.php'">← Voltar</div>
     <div class="bg">
         <div class="overlay"></div>
         <div class="content">

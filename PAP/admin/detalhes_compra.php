@@ -199,9 +199,8 @@ $stmtItens->close();
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
-            <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
-    ← Voltar
-</a>
+<div class="botao-link botao-voltar voltar-fixo" onclick="window.location.href='../admin/admin_compras.php'">← Voltar</div>
+
 <div class="bg">
     <div class="overlay"></div>
     <br><br><br>

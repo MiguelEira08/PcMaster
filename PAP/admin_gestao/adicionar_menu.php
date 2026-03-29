@@ -70,9 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-        <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
-    ← Voltar
-</a>
+<div class="botao-link botao-voltar voltar-fixo" onclick="window.location.href='../admin/admin_menu.php'">← Voltar</div>
 
 <div class="bg">
     <div class="overlay"></div>

@@ -85,9 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/admin_criar.css">
 </head>
 <body>
-        <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
-    ← Voltar
-</a>
+<div class="botao-link botao-voltar voltar-fixo" onclick="window.location.href='../admin/gerir_utilizadores.php'">← Voltar</div>
 
 <div class="bg">
   <div class="overlay"></div>
